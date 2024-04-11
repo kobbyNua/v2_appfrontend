@@ -1,0 +1,220 @@
+<div class="wrapper">
+      <app-topnavbar></app-topnavbar>
+      <app-patient-sidebar></app-patient-sidebar>
+      <div class="content-wrapper">
+            <div class="content-header">
+                  <div class="container-fluid">
+                        <div class="row mb-2">
+                                <div class="col-sm-6">
+                                       <h1 class="m-0">OPD</h1>
+                                </div><!-- /.col -->
+                                <div class="col-sm-6">
+                                     <ol class="breadcrumb float-sm-right">
+                                           <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                           <li class="breadcrumb-item active">patient</li>
+                                     </ol>
+                                </div><!-- /.col -->
+                        </div><!-- /.row -->
+                   </div><!-- /.container-fluid -->
+            </div>
+            <section class="content">
+                  <div class="container-fluid">
+
+                        <div class="row">
+                              <div class="col-md-12">
+                                    <div class="card card-primary card-tabs">
+                                          <div class="card-header p-0 pt-1">
+                                                <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+
+
+                                                          <li class="nav-item">
+                                                            <a class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill" href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home" aria-selected="true">Search Patient</a>
+                                                          </li>
+                                                          <li class="nav-item">
+                                                            <a class="nav-link" id="custom-tabs-three-profile-tab" data-toggle="pill" href="#custom-tabs-three-profile" role="tab" aria-controls="custom-tabs-three-profile" aria-selected="false">Patient Registration</a>
+                                                          </li>
+
+
+                                                </ul>
+                                          </div>
+                                          <div class="card-body">
+                                                <div class="tab-content" id="custom-tabs-three-tabContent">
+
+                                                         <div class="tab-pane fade show active" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
+                                                            <div class="container">
+                                                                  <div class="row">
+
+                                                                        <div class="col-md-12 col-12">
+                                                                              <input type="text" (keyup)="searchPatient(search)" #search="ngModel" name="search"  class="form-control form-control-lg" ngModel placeholder="search by entering firts name, last name,date of birth,telephone number or card number">
+                                                                        </div> 
+                                                                        <div class="col-md-12 col-12 mt-2 mb-2">
+                                                                              <!---<div *ngIf="patient_search.length == 0;else patientRecords">
+                                                                                      <span>No records found</span>
+                                                                              </div>
+                                                                              <ng-template #patientRecords>--->
+                                                                                    <table class="table table-bordered">
+                                                                                          <thead>
+                                                                                               <tr>
+                                                                                                 <th>Fullname</th>
+                                                                                                 <th>Date of Birth</th>
+                                                                                                 <th>Telephone</th>
+                                                                                                 <th>Card Number</th>
+                                                                                                 <th>View OPD Details</th>
+                                                                                              </tr>
+                                                                                         </thead>
+                                                                                         <tbody>
+                                                                                             <tr *ngFor="let patient of patient_search">
+                                                                                                 <td>{{patient.fullname}}</td>
+                                                                                                 <td>{{patient.date_of_birth}}</td>
+                                                                                                 <td>{{patient.telephone}}</td>
+                                                                                                 <td>{{patient.card_number}}</td>
+                                                                                                 <td><a [routerLink]="['/patient-opd-details',patient.card_number]">view opd details</a></td>
+                                                                                            </tr>
+                                                                                         </tbody>
+                                                                                    </table>
+
+
+                                                                              <!--</ng-template>-->
+
+
+
+
+
+                                                                        </div> 
+
+                                                                  </div>
+                                                                  
+                                                            </div>
+                                                         </div>
+                                                         <div class="tab-pane fade" id="custom-tabs-three-profile" role="tabpanel" aria-labelledby="custom-tabs-three-profile-tab">
+                                             
+                                                            <!--{{get_card_number}}-->
+                                                            <div class="msg-box">
+                                                                 <div *ngIf="status == 'success';else errMsg" id="msg" class="bg-success">
+                                                                      <span>{{message}}</span>
+                                                                 </div>
+
+                                                                 <ng-template #errMsg class="bg-danger" id="msg">
+                                                                      <span>{{message}}</span>
+                                                                 </ng-template>
+                                                            </div>
+                                                            <form [formGroup]="create_Patient_Details" #newpatient="ngForm" (ngSubmit)="createPatientOpdDetails(newpatient)">
+                                                                    <div class="row">
+                                                                          <div class="col-md-6">
+                                                                               <div class="form-group">
+                                                                                    <label for="firstName">First Name</label>
+                                                                                    <input type="text" id="firstName" formControlName="first_name" class="form-control" placeholder="First Name">
+                                                                               </div>
+                                                                               <div *ngIf="create_Patient_Details.controls.first_name.invalid && (create_Patient_Details.controls.first_name.dirty || create_Patient_Details.controls.first_name.touched)">
+                                                                                    <!--<div *ngIf="create_Patient_Details.controls.first_name.errors?.required">
+                                                                                          
+                                                                                    </div>-->
+                                                                                    First Name Field required
+
+                                                                               </div>
+                                                                              
+                                                                          </div>
+                                                                          <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label for="lastName">Last Name</label>
+                                                                                       <input type="text" id="lastName" formControlName="last_name" class="form-control" placeholder="Last Name">
+                                                                                </div>
+
+                                                                                <div *ngIf="create_Patient_Details.controls.last_name.invalid && (create_Patient_Details.controls.last_name.dirty || create_Patient_Details.controls.last_name.touched)">
+                                                                                    <!--<div *ngIf="create_Patient_Details.controls.first_name.errors?.required">
+                                                                                          
+                                                                                    </div>-->
+                                                                                    Last Name field required
+
+                                                                               </div>
+
+                                                                          </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                              <div class="form-group">
+                                                                                    <label for="telephone">Telephone</label>
+                                                                                    <input type="text" id="telephone" pattern="[0-9]{10,12}" formControlName="telephone" class="form-control" placeholder="Telephone">
+                                                                              </div>
+                                                                              
+
+                                                                              <div *ngIf="create_Patient_Details.controls.telephone.invalid && (create_Patient_Details.controls.telephone.dirty || create_Patient_Details.controls.telephone.touched)">
+                                                                                    <!--<div *ngIf="create_Patient_Details.controls.first_name.errors?.required">
+                                                                                          
+                                                                                    </div>-->
+                                                                                    Telephone field required
+
+                                                                               </div>
+
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                              <div class="form-group">
+                                                                                    <label for="dateOfBirth">Date Of Birth</label>
+                                                                                    <input type="date" id="dateOfBirth" formControlName="date_of_birth" class="form-control" placeholder="date of birth">
+                                                                              </div>
+                                                                              
+                                                                              <div *ngIf="create_Patient_Details.controls.date_of_birth.invalid && (create_Patient_Details.controls.date_of_birth.dirty || create_Patient_Details.controls.date_of_birth.touched)">
+                                                                                    <!--<div *ngIf="create_Patient_Details.controls.first_name.errors?.required">
+                                                                                          
+                                                                                    </div>-->
+                                                                                    Date of Birth field required
+
+                                                                               </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12 ">
+                                                                              <div class="form-group">
+                                                                                    <label for="region">Region</label>
+                                                                                    <select formControlName="region" class="form-control">
+                                                                                          <option value="{{regions.id}}" *ngFor="let regions of region">{{regions.region}}</option>
+                                                                                    </select>
+
+                                                                              </div>
+                                                                              
+                                                                              <div *ngIf="create_Patient_Details.controls.region.invalid && (create_Patient_Details.controls.region.dirty || create_Patient_Details.controls.region.touched)">
+                                                                                    <!--<div *ngIf="create_Patient_Details.controls.first_name.errors?.required">
+                                                                                          
+                                                                                    </div>-->
+                                                                                    Region field required
+
+                                                                               </div>
+                                                                             
+                                                                        </div>
+                                                                    </div>
+                                                                
+                                                                
+                                                            
+                                                                <button type="submit" class="btn btn-info">create patient details</button>
+                                           
+                                     
+                                                            </form>
+
+                                                         </div>
+
+                                                </div>
+                                          </div>
+                                    </div>
+                              </div>
+                        </div>
+                          <!--<p>Search Patient</p>
+
+
+                         
+                         <div>
+                         {{patient_search|json}}
+
+                       </div>
+
+                        <p>create patient</p>
+-->
+              </div>
+
+           </section>
+    </div>
+    <app-footer></app-footer>
+    
+</div>

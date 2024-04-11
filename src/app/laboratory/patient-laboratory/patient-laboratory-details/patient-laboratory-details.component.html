@@ -1,0 +1,209 @@
+<div class="wrapper">
+     <app-topnavbar></app-topnavbar>
+     <app-laboratory-sidebar></app-laboratory-sidebar>
+     <div class="content-wrapper">
+          <div class="content-header">
+                <div class="container-fluid">
+                      <div class="row mb-2">
+                              <div class="col-sm-6">
+                                     <h1 class="m-0">Laboratory</h1>
+                              </div><!-- /.col -->
+                              <div class="col-sm-6">
+                                   <ol class="breadcrumb float-sm-right">
+                                         <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                         <li class="breadcrumb-item active">lab setup</li>
+                                   </ol>
+                              </div><!-- /.col -->
+                      </div><!-- /.row -->
+                 </div><!-- /.container-fluid -->
+          </div>
+
+          <section class="content">
+               <div class="container-fluid">
+                    
+                    <div class="row">
+                           <div class="col-md-4">
+                                <div class="card">
+                                   <div class="text-center">
+                                        <i class="fa fa-user-circle fa-5x"></i>
+                                        <!--<img class="profile-user-img img-fluid img-circle"
+                                             src="/node_modules/admin-lte/dist/img/user4-128x128.jpg"
+                                             alt="User profile picture">-->
+                                   </div>
+
+                                   <div *ngFor="let bio of patient_bio_data">
+                                        <div class="">
+                                             name: {{bio.patient_name}}
+                                        </div>
+                                        <div class="">
+                                             case number:{{bio.case_number}}
+                                        </div>
+                                        <div class="">
+                                             Total Cost: GHS {{bio.total_cost}}
+                                        </div>
+                                        <div>
+                                             Date Requested: {{bio.date_requested}}
+                                        </div>
+                                        <div *ngIf="bio.released_status == true">
+                                             Date Released: {{bio.date_released}}
+                                        </div>
+                                        <div></div>
+                                  </div>
+                                </div>
+                           </div>
+                           <div class="col-md-8">
+                              <div class="card">
+                                    <div class="card-header">
+                                          <h5 class="card-title">Lab test info</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div *ngIf="payment_status == false;else mainSection">
+
+                                             <h2>Cann't proceed with this. lab payment not made</h2>
+                                        </div>
+
+                                        <ng-template  #mainSection>
+                                             <div>
+                                             <div class="lab_test_entry" *ngIf="released_status == false;else testResults">
+                                                    <!--{{lab_results}}
+                                                    {{test_forms.value|json}}-->
+                                                  <form [formGroup]="test_forms" #labForms="ngForm" (ngSubmit)="submit_lab_test_results(labForms)">
+                                                       <div class="bg-success p-2" *ngIf="lab_test_status === 'success'">
+                                                               {{lab_results}}
+                                                       </div>
+                                                       <input type="hidden" formControlName="case_number"><br/>
+                                                    <div formArrayName="lab_test_details">
+                                                           <div class="row">
+                                                                  <div class="col-md-3">
+                                                                      <h4>Test Type</h4>
+                                                                  </div>
+                                                                  <div class="col-md-9">
+                                                                      <h4>Results Output</h4>
+                                                                  </div>
+                                                           </div>
+                                                           <div class="row" *ngFor="let lab_test_forms of test_forms.get('lab_test_details')['controls'];index as i" formGroupName="{{i}}">
+                                                                  <div class="col-md-3">
+                                                                        <div class="form-group">
+                                                                           <!--<input type="text" class="form-control" formControlName="lab_test">-->
+                                                                           <label>{{test_forms.value.lab_test_details[i].lab_test}}</label>
+                                                                           <input type="hidden" formControlName="cost">
+                                                                        </div>
+                                                                  </div> 
+                                                                  <div class="col-md-9">
+                                                                      <div class="form-group">
+                                                                           <input type="text" class="form-control" formControlName="results" placeholder="enter test results">
+                                                                           <input type="hidden" formControlName="serial_code">
+                                                                      </div>
+                                                                  </div>             
+                                                                     
+                                                                   
+                                                                   
+                                                                   
+                                                                 </div>
+                                                    </div>
+                                                    <input type="submit" class="btn btn-info" style="border:none;border-radius:0"  value="submit results">
+                                                  </form>
+                                                  
+                                             </div>
+                                             <ng-template #testResults>
+                                             <div class="lab_test">
+                                                    <table class="table table-striped">
+                                                         <thead>
+                                                                <tr>
+                                                                    <th>Lab test</th>
+                                                                    <th>Cost</th>
+                                                                    <th>Results</th>
+                                             
+                                                                </tr>
+                                                         </thead>
+                                                         <tbody>
+                                                               <tr *ngFor="let results of patient_lab_test_result">
+                                                                    <td>{{results.lab_test_type}}</td>
+                                                                    <td>GHS {{results.cost}}</td>
+                                                                    <td>{{results.results}}</td>
+                                                               </tr>
+                                                         </tbody>
+                                                    </table>
+                                             </div>
+                                             </ng-template>
+                                             </div>
+                                             </ng-template>
+
+
+
+
+
+
+                                    </div>
+                              </div>
+                              <div class="card">
+                                   <div class="card-header">
+                                        <h5 class="card-title">Patient lab Test History</h5>
+                                   </div>
+                                   <div class="card-body">
+                                     <div *ngIf="patient_lab_history_length == 0;else history">
+                                         
+                                            <h3>No patient lab test history</h3>
+                                     </div>
+                                     <ng-template #history>
+                                        <table class="table table-bordered">
+                                             <thead>
+                                                   <tr>
+                                                       <th>Case Number</th>
+                                                       <th>Date Released</th>
+                                                       <th>Date Requested</th>
+                                                       <th>Type</th>
+                                                   </tr>
+                                             </thead>
+                                             <tbody>
+                                                  <tr *ngFor="let patient of patient_lab_history">
+                                                         <td>{{patient.case_number}}</td>
+                                                         <td>{{patient.date_release}}</td>
+                                                         <td>{{patient.date_requested}}</td>
+                                                         <td *ngIf="patient.in_housee_status == 'true';else outside">in house</td>
+                                                         <ng-template #outside>
+                                                                outside lab
+                                                         </ng-template>
+                                                         <td>
+                                                            <a [routerLink]="['/laboratory','patient-laboratory','patient-laboratory-details',patient.case_number]">view details</a>
+                                                         </td>
+                                                  </tr>
+                                             </tbody>
+                                          </table>
+                                     </ng-template>
+                                   </div>
+                              </div>
+                           </div>
+                    </div>
+
+               </div>
+          </section>
+     </div>
+<!--{{patient_lab_details|json}}
+
+
+
+{{patient_lab_test_result|json}}
+
+{{patient_bio_data|json}}
+
+
+
+<div>
+
+</div>
+
+
+
+
+<div class="patient-lab-history">
+
+
+</div>
+</ng-template>-->
+
+    <app-footer></app-footer>
+</div>
+
+
+<!--work on profile, types of laboror test-->

@@ -1,0 +1,155 @@
+<div class="wrapper">
+    <app-topnavbar></app-topnavbar>
+    <app-supplement-sidebar></app-supplement-sidebar>
+    <div class="content-wrapper">
+
+      <div class="content-header">
+            <div class="container-fluid">
+                   <div class="row mb-2">
+                        <div class="col-sm-6">
+                               <h1 class="m-0">General Supplements Report</h1>
+                        </div><!-- /.col -->
+                        <div class="col-sm-6">
+                               <ol class="breadcrumb float-sm-right">
+                                   <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                   <li class="breadcrumb-item active">supplement</li>
+                               </ol>
+                        </div><!-- /.col -->
+                   </div><!-- /.row -->
+             </div><!-- /.container-fluid -->
+       </div>
+       <section class="content">
+            <div class="container-fluid">
+                  <div class="row">
+                        <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-header">
+                                          <h5 class="card-title">Generate General Report</h5>
+                                    </div>
+                                    <div class="card-body">
+                                          <div class="row">
+                                                <div class="col-md-12">
+                                                      <form [formGroup]="general_report_forms" (submit)="generateReporst()">
+                                                            <div class="form-group">
+                                                                  <label for="startDate">Start Date</label>
+                                                                  <input type="date" id="startDate" formControlName="startDate" class="form-control">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                   <label for="startDate">End Date</label>
+                                                                   <input type="date" id="endDate" formControlName="endDate" class="form-control">
+                                                            </div>
+                                                            <button type="submit" class="btn btn-info">generate sales reports</button>
+                                                      </form>
+                                                </div>
+                                          </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                       <div class="card-header">
+                                             <h5 class="card-title">
+                                                     Summerised Reports
+                                             </h5>
+                                       </div>
+                                       <div class="body">
+                                             <h5 style="text-align: center;">Total Items Sold <br>{{total_items}}</h5><br>
+                                             <h5 style="text-align: center;">Total Quantity Solid <br>{{total_quantity_sold}}</h5><br/>
+                                             <h5 style="text-align: center;">Total Cost <br>GHS {{total_cost}}</h5><br/>
+                                       </div>
+                                </div>
+                        </div>
+
+                        <div class="col-md-9">
+
+                              <div class="card">
+                                    <div class="card-header"></div>
+                                    <div class="card-body">
+
+                                     <table class="table table-bordered">
+                                         <thead>
+
+
+                                             <tr>
+                                                 <th>Purchased Date</th>
+                                                 <th>Supplement</th>
+                                                 <th>Unit Cost</th>
+                                                 <th>Quantity Purchased</th>
+                                                 
+                                                 <th> Sub Total Cost</th>
+                                                 
+                                             </tr>
+
+                                         </thead>
+                                         <tbody>
+                                          <!--{{reports_details|json}}-->
+                                               <tr *ngFor="let reports of reports_details">
+                                                      <td>{{reports.data_purchased}}</td>
+                                                      <td>{{reports.supplement}}</td>
+                                                      <td>GHS {{reports.cost_per_unit}}</td>
+                                                      <td>{{reports.quantity_purchased}}</td>
+                                                      <td>{{reports.total_cost}}</td>
+                                               </tr>
+                                         </tbody>
+                                     </table>
+                                    </div>
+                              </div>
+
+
+                        </div>
+
+
+
+                  </div>
+            </div>
+      </section>
+
+            <!--<div class="content-header">
+                <div class="container-fluid">
+                       <div class="row mb-2">
+                            <div class="col-sm-6">
+                                   <h1 class="m-0">Daily Sales Reports</h1>
+                            </div>
+                            <div class="col-sm-6">
+                                   <ol class="breadcrumb float-sm-right">
+                                       <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                       <li class="breadcrumb-item active">supplement/Reports</li>
+                                   </ol>
+                            </div>
+                       </div>
+                 </div>
+           </div>
+           <section class="content">
+                   <div class="container-fluid">
+
+
+                           <div class="row">
+                                <div class="col-md-3">
+                                        <div class="card">
+                                                <div class="card-header"></div>
+                                               <div class="card-body">
+                                                     <div class="row">
+                                                           <div class="co-md-12">
+                                                                 <form>
+                                                                       <div class="form-group">
+                                                                             <label for="startDate">Start Date</label>
+                                                                             <input type="text" id="startDate" class="form-control">
+                                                                       </div>
+                                                                       <div class="form-group">
+                                                                              <label for="startDate">End Date</label>
+                                                                              <input type="text" id="endDate" class="form-control">
+                                                                       </div>
+                                                                 </form>
+                                                           </div>
+                                                     </div>
+                                               </div>
+                                        </div>
+                                </div>
+  
+                           </div>
+                   </div>
+           </section>-->
+        
+
+        </div>
+
+        <app-footer></app-footer>
+</div>

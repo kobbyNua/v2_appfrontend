@@ -1,0 +1,200 @@
+<div class="wrapper">
+    <app-topnavbar></app-topnavbar>
+    <app-supplement-sidebar></app-supplement-sidebar>
+    <div class="content-wrapper">
+        <div class="content-header">
+              <div class="container-fluid">
+                    <div class="row mb-2">
+                            <div class="col-sm-6">
+                                   <h1 class="m-0">Patient Supplement List</h1>
+                            </div><!-- /.col -->
+                            <div class="col-sm-6">
+                                 <ol class="breadcrumb float-sm-right">
+                                       <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                       <li class="breadcrumb-item active">supplement</li>
+                                 </ol>
+                            </div><!-- /.col -->
+                    </div><!-- /.row -->
+               </div><!-- /.container-fluid -->
+        </div>
+        <section class="content">
+              <div class="container-fluid">
+
+
+                <!--{{patient_dietary_list|json}}-->
+
+                <p>{{payment_status}}</p>
+               
+
+                <div class="row">
+                      <div class="col-md-4 col-12">
+                            <div class="card">
+                                  <div class="card-header">
+                                        <h5 class="card-title">Profile</h5>
+                                  </div>
+                                  <div class="card-body"></div>
+                            </div>
+                      </div>
+                      <div class="col-md-8 col-12">
+                            <div class="card">
+                                  <div class="card-header">
+                                         <h5 class="card-title">Patient Supplement</h5>
+                                   </div>
+                                   <div class="card-body">
+
+
+
+                                          <div *ngIf="payment_status == false;else supplementPaymentDetails">
+
+
+                                                      <form [formGroup]="patient_dietary_forms" #patienDietary="ngForm" (ngSubmit)="submitDietarySupplement(patienDietary)">
+
+                                                            <div class="bg-success p-2" *ngIf="patient_dietary_status==='success';else dErrmsg">
+                                                                      
+                                                                  {{patient_dietary_request}}
+                                                            </div>
+                                                            <ng-template #dErrmsg>
+                                                                  <div class="bg-danger p-2" *ngIf="patient_dietary_status==='error';">
+                                                                        {{patient_dietary_request}}
+                                                                  </div>
+                                                            </ng-template>
+                                                              <table class="table table-striped">
+                                                                   <tr>
+                                                                      <td style="width:30%">Dietary</td>
+                                                                      <td style="width:20%">Cost per unit</td>
+                                                                      <td style="width:30%">Quantity</td>
+                                                                      <td style="width:20%">Total Cost</td>
+                                                                  </tr>
+                                                
+                                                   
+                                               <tbody formArrayName="dieray_details">
+                                                <tr *ngFor="let inputs of patient_dietary_forms.get('dieray_details')['controls'];index as i" formGroupName="{{i}}">
+                                                    <td>
+                                                        {{patient_dietary_forms.value.dieray_details[i].dietary}}<br/>
+                                                    <input type="hidden" formControlName="serial_code">
+                                                    
+                                                    </td>
+                                                    <td>
+                                                    GHS {{patient_dietary_forms.value.dieray_details[i].cost}}
+                                                    </td>
+                                                    <td>
+                                                    <input type="text" class="form-control" formControlName="quantity" style="width: 45%;" (input)="updateCost(i)">
+                                                    </td>
+                                                    <td style="width:20%">
+                                                    GHS {{patient_dietary_forms.value.dieray_details[i].quantity * patient_dietary_forms.value.dieray_details[i].cost}}
+                                                    </td>
+                                                
+                                                </tr>
+                                            
+                                            </tbody>
+                                            <tfoot>
+                                                 <tr>
+                                                    <td style="width:40%">
+                                                        GHS  {{total_cost}}
+                                                        
+                                                    </td>
+                                                    <td style="width:30%">
+                                                        <input type="text" formControlName="amount" class="form-control" placeholder="enter amount">
+                                                        <input type="hidden" formControlName="case_number">
+                                                    </td>
+                                                    <td style="width:30%">
+                                                        <button type="submit" class="btn btn-info" style="width:100%">make payment</button>
+                                                    </td>
+                                                 </tr>
+                                                
+                                                
+                                                
+                                            </tfoot>
+
+                                            </table>
+                                        </form>
+                                        
+                                        
+                                        </div>
+
+                                        <ng-template #supplementPaymentDetails>
+                                            
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                          <tr>
+                                                              <th>Dietary Supplement</th>
+                                                              <th>Cost</th>
+                                                              <th>Serial Code</th>
+                                                              <th>Quantity</th>
+                                                          </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                          <tr *ngFor="let supplement of supplements">
+                                                                 <td>{{supplement.dietary}}</td>
+                                                                 <td>GHS {{supplement.cost}}</td>
+                                                                 <td>{{supplement.dietary_code}}</td>
+                                                                 <td>{{supplement.quantity_bought}}</td>
+                                                          </tr>
+                                                    </tbody>
+                                                </table>
+                                            
+                                        </ng-template>
+
+                                   </div>
+                             </div>
+                             <div class="card">
+                                <div class="card-header">
+                                       <h5 class="card-title">Patient Supplement History</h5>
+                                 </div>
+                                 <div class="card-body">
+                                    
+                                    <div *ngIf="patient_history_list_check == 0;else history">
+                                            <h3 style="text-align: center;">No Patient History Supplement</h3>
+                                    </div>
+                                    <ng-template #history>
+                                              <table class="table table-striped">
+                                                      <thead>
+                                                            <tr>
+                                                                 <td>Case Number</td>
+                                                                 <td>Date Dispensed</td>
+                                                                 <td>Date Prescribe</td>
+                                                                 <td>View Details</td>
+                                                            </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                           <tr *ngFor="let history of patient_history">
+                                                               <td>{{history.case_number}}</td>
+                                                               <td>{{history.date_dispensed}}</td>
+                                                               <td>{{history.date_prescribe}}</td>
+                                                               <td><a [routerLink]="['/dispensary-patients-details',history.case_number]">view details</a></td>
+                                                           </tr>
+                                                      </tbody>
+                                              </table>
+                                    </ng-template>
+                                 </div>
+                            </div>
+
+                      </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+              </div>
+        </section>
+    </div>
+
+
+
+     <app-footer></app-footer>
+</div>            
+
+<!--
+
+
+
+kkfkdkffkdkfkdk fkdkfkd-->
+

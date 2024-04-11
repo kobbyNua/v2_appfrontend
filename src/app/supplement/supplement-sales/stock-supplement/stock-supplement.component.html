@@ -1,0 +1,175 @@
+<!---
+       *View stocks and view stock  details
+       *create new stock stock details
+
+-->
+
+
+
+
+<div class="wrapper">
+   <app-topnavbar></app-topnavbar>
+   <app-supplement-sidebar></app-supplement-sidebar>
+
+
+   <div class="content-wrapper">
+      <div class="content-header">
+            <div class="container-fluid">
+                  <div class="row mb-2">
+                          <div class="col-sm-6">
+                                 <h1 class="m-0">Supplements</h1>
+                          </div><!-- /.col -->
+                          <div class="col-sm-6">
+                               <ol class="breadcrumb float-sm-right">
+                                     <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                     <li class="breadcrumb-item active">supplement</li>
+                               </ol>
+                          </div><!-- /.col -->
+                  </div><!-- /.row -->
+             </div><!-- /.container-fluid -->
+      </div>
+      <section class="content">
+            <div class="container-fluid">
+                     
+                       <div class="row">
+                            <div class="col-md-12 col-12">
+                                  <div class="card card-primary card-tabs">
+                                        <div class="card-header p-0 pt-1">
+
+
+                                          <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+
+
+                                             <li class="nav-item">
+                                               <a class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill" href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home" aria-selected="true">Supplement Stocks</a>
+                                             </li>
+                                             <li class="nav-item">
+                                               <a class="nav-link" id="custom-tabs-three-profile-tab" data-toggle="pill" href="#custom-tabs-three-profile" role="tab" aria-controls="custom-tabs-three-profile" aria-selected="false">Create New Supplement</a>
+                                             </li>
+                                             <li class="nav-item">
+                                                <a class="nav-link" id="custom-tabs-three-shortage-tab" data-toggle="pill" href="#custom-tabs-three-shortage" role="tab" aria-controls="custom-tabs-three-shortage" aria-selected="false">List Of Supplement to Restock</a>
+                                              </li>
+
+                                          </ul>
+
+
+                                        </div>
+                                        <div class="card-body">
+                                              <div class="tab-content" id="custom-tabs-three-tabContent">
+                                                     <div class="tab-pane fade show active" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
+                                                           <div class="table-responsive">
+
+
+
+
+
+
+
+                                                            <table class="table table-bordered">
+                                                               <tr>
+                                                                  <td>supplement</td>
+                                                                  <td>Cost</td>
+                                                                  <td>serial code</td>
+                                                                  <td>quantity in stock</td>
+                                                                  
+                                                                  <td>View Details</td>
+                                                               </tr>
+                                                           
+                                                               <tr *ngFor="let dietary of supplement">
+                                                                     <td>{{dietary.supplement}}</td>
+                                                                     <td>{{dietary.price}}</td>
+                                                                     <td>{{dietary.serial_code}}</td>
+                                                                     <td>{{dietary.quantity}}</td>
+                                                                     <td><a [routerLink]="['/supplement/','supplement-details',dietary.serial_code]">view details</a></td>
+                                                               </tr>
+                                                           
+                                                           </table>
+
+
+
+
+
+
+
+                                                           </div>
+                                                     </div>
+                                                     <div class="tab-pane fade" id="custom-tabs-three-profile" role="tabpanel" aria-labelledby="custom-tabs-three-profile-tab">
+                                             
+                                                      <p>{{response}}</p>
+                                                      <form (ngSubmit)="createDietarySupplement(myForm)" #myForm="ngForm" [formGroup]="supplement_forms" enctype="multipart/form-data">
+                                                            <div class="msg-box">
+                                                                  <div class="ng-success p-2" *ngIf="supplement_status=='success';else serverError">
+                                                                            <p>{{supplement_request}}</p>
+                                                                  </div>
+
+                                                                  <ng-template #serverError>
+                                                                           <div class="ng-danger p-2" *ngIf="supplement_status=='error'">
+                                                                                  <p>{{supplement_request}}</p>
+                                                                           </div>
+                                                                  </ng-template>
+                                                            </div>
+                                                            <div class="row">
+                                                            <div class="col-md-12 col-12">
+                                                                  <div class="form-group">
+                                                                     <label for="supplement">Dietary Supplement Name</label>
+                                                                     <input type="text" id="supplement" class="form-control" formControlName="dietary_supplement" placeholder="supplement">
+                                                                  </div>
+                                                                  <div class="form-group">
+                                                                     <label for="price">Price pre Unit</label>
+                                                                     <input type="text" id="price" class="form-control" formControlName="price" placeholder="price">
+                                                                  </div>
+                                                                  <div class="form-group">
+                                                                        <label for="quantity">Quantity</label>
+                                                                        <input type="number" class="form-control" id="quantity" formControlName="quantity" placeholder="quantity">
+                                                                  </div>
+                                                                  <div class="form-group">
+                                                                        <label for="photo">Upload Supplement Photo</label>
+                                                                        <input type="file" id="photo" class="form-control" formControlName="photo" (change)="handleEvent($event)"><br/>
+                                                                  </div>
+                                                            </div>
+                                                         </div>
+
+                                                         
+                                                         <button type="submit" class="btn btn-info">create new supplement</button>
+                                                      </form>
+
+
+
+
+
+                                                     </div>
+                                                     <div class="tab-pane fade" id="custom-tabs-three-shortage" role="tabpanel" aria-labelledby="custom-tabs-three-shortage-tab">
+                                                      <table class="table table-bordered">
+                                                            <tr>
+                                                               <td>supplement</td>
+                                                               <td>Cost</td>
+                                                               <td>serial code</td>
+                                                               <td>quantity in stock</td>
+                                                               
+                                                               <td>View Details</td>
+                                                            </tr>
+                                                        
+                                                            <tr *ngFor="let dietary of shortage">
+                                                                  <td>{{dietary.supplement}}</td>
+                                                                  <td>{{dietary.price}}</td>
+                                                                  <td>{{dietary.serial_code}}</td>
+                                                                  <td>{{dietary.quantity}}</td>
+                                                                  <td><a [routerLink]="['/supplement/','supplement-details',dietary.serial_code]">view details</a></td>
+                                                            </tr>
+                                                      </table>
+                                                     </div>
+                                               </div>
+                                        </div>
+                                  </div>
+                            </div>
+                       </div>
+
+            </div>
+      </section>
+   </div>  
+
+<!--
+-->
+
+         <app-footer></app-footer>
+</div> 

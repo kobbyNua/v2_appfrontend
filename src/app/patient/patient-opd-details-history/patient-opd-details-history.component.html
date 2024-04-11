@@ -1,0 +1,205 @@
+<div class="wrapper">
+        <app-topnavbar></app-topnavbar>
+        <app-patient-sidebar></app-patient-sidebar>
+        <div class="content-wrapper">
+
+            <div class="content-header">
+
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                            <div class="col-sm-6">
+                                   <h1 class="m-0">Patient OPD History Details</h1>
+                            </div><!-- /.col -->
+                            <div class="col-sm-6">
+                                 <ol class="breadcrumb float-sm-right">
+                                       <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                       <li class="breadcrumb-item active">patient</li>
+                                 </ol>
+                            </div><!-- /.col -->
+                    </div><!-- /.row -->
+               </div>
+    
+    
+            </div><!--end of content header-->
+            <section class="content">
+                <div class="container-fluid">
+                      <div class="row">
+                            <div class="col-md-4 col-12">
+                                  <div class="card">
+                                       <div class="card-header">
+
+                                       </div>
+                                       <div class="card-body box-profile">
+                                           <!--{{patient_bio|json}}-->
+                                            <div class="text-center">
+                                                 <i class="fa fa-user-circle fa-5x"></i>
+                                               <!--<img class="profile-user-img img-fluid img-circle"
+                                                     src="/node_modules/admin-lte/dist/img/user4-128x128.jpg"
+                                                     alt="User profile picture">-->
+                                            </div>
+                                            <h3 class="profile-username text-center">{{first_name}} {{last_name}}</h3>
+
+
+                                            <ul class="list-group list-group-unbordered mb-3">
+                                                <li class="list-group-item">
+                                                  <b>Card Number</b> <a class="float-right">{{card_number}}</a>
+                                                </li>
+                                                <li class="list-group-item">
+                                                  <b>Case Number</b> <a class="float-right">{{case_number}}</a>
+                                                </li>
+                                            </ul>
+                                       </div>
+                                  </div>
+
+                                  <div class="card">
+                                       <div class="card-header">
+
+                                       </div>
+                                       <div class="card-body">
+                                            <!--{{patient_opd_vital_details|json}}-->
+                                            <table class="table table-striped">
+                                                  <thead>
+                                                       <tr>
+                                                           <th>Vitals</th>
+                                                           <th>Results</th>
+                                                       </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                       <tr *ngFor="let vitals of patient_opd_vital_details">
+                                                             <th>{{vitals.vital}}</th>
+                                                             <th>{{vitals.result}}</th>
+                                                       </tr>
+                                                  </tbody>
+                                            </table>
+                                       </div>
+                                  </div>
+
+
+                            </div>
+                            <div class="col-md-8 col-12">
+
+                                    <div class="card">
+                                          <div class="card-header">
+                                                    <h5 class="header-title">Laboratory Details</h5>
+                                          </div>
+                                          <div class="card-body">
+                                              <!--{{patient_lab_record|json}}-->
+                                              <!--{{patient_lab_details|json}}-->
+
+                                              <table class="table table-bordered">
+                                                     <thead>
+                                                           <tr>
+                                                              <th>Case Number</th>
+                                                              <th>Amount Paid</th>
+                                                              <th>Total Cost</th>
+                                                           </tr>
+                                                     </thead>
+                                                     <tbody>
+                                                          <tr *ngFor="let records of patient_lab_record">
+                                                               <td>{{records.case_number}}</td>
+                                                               <td>{{records.amount_paid}}</td>
+                                                               <td>{{records.total_cost}}</td>
+
+                                                          </tr>
+                                                     </tbody>
+                                              </table>
+
+                                              <table class="table table-bordered">
+                                                     <thead>
+                                                          <tr>
+                                                             <th>Test Tye</th>
+                                                             <th>Cost</th>
+                                                          </tr>
+                                                     </thead>
+                                                     <tbody>
+                                                          <tr *ngFor="let lab_details of patient_lab_details">
+                                                                <td>{{lab_details.test_type}}</td>
+                                                                <td>GHS {{lab_details.test_cost}}</td>
+                                                          </tr>
+                                                     </tbody>
+                                              </table>
+                                          </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+
+                                        </div>
+                                        <div class="card-body">
+                                            <!--{{patient_supplement|json}}<br>
+                                            {{patient_supplement_records|json}}-->
+                                            <table class="table table-bordered">
+                                                   <thead>
+                                                        <tr>
+                                                            <th>Case Number</th>
+                                                            <th>Amount Paid</th>
+                                                            <th>Total Cost</th>
+                                                        </tr>
+                                                   </thead>
+                                                   <tbody>
+                                                        <tr *ngFor="let records of patient_supplement_records">
+                                                              <td>{{records.case_number}}</td>
+                                                              <td>GHS {{records.amount_paid}}</td>
+                                                              <td>GHS {{records.total_cost}}</td>
+                                                        </tr>
+                                                   </tbody>
+                                            </table>
+                                            <table class="table table-bordered">
+                                                 <thead>
+                                                       <tr>
+                                                           <th>Supplement</th>
+                                                           <th>Quantity</th>
+                                                           <th>Cost per unit</th>
+                                                       </tr>
+                                                 </thead>
+                                                 <tbody>
+                                                     <tr *ngFor="let records_details of patient_supplement">
+                                                           <td>{{records_details.supplements}}</td>
+                                                           <td>{{records_details.quantity}}</td>
+                                                           <td>{{records_details.cost_per_unit}}</td>
+                                                     </tr>
+                                                 </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <div class="card-header">
+
+                                        </div>
+                                        <div class="card-body">
+                                             <!--{{cases|json}}-->
+                                             <table class="table table-striped">
+                                                  <thead>
+                                                       <tr>
+                                                           <th>Case Number</th>
+                                                           <th>Check In</th>
+                                                           <th>Check Out</th>
+                                                           <th>view case</th>
+                                                       </tr>
+                                                       
+                                                  </thead>
+                                                  <tbody>
+                                                       <tr *ngFor="let case of cases">
+                                                             <td>{{case.case_number}}</td>
+                                                             <td>{{case.date_checked_in}}</td>
+                                                             <td>{{case.date_checled_out}}</td>
+                                                             <td><a [routerLink]="['/patient','patient-opd-history-details',case.case_number]">view case</a></td>
+                                                       </tr>
+                                                  </tbody>
+                                             </table>
+                                        </div>
+                                    </div>
+
+                            </div>
+                      </div>
+                </div>
+            </section>
+
+
+
+
+
+        </div>
+
+        <app-footer></app-footer> 
+</div>

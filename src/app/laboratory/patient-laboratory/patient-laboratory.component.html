@@ -1,0 +1,133 @@
+<div class="wrapper">
+    <app-topnavbar></app-topnavbar>
+    <app-laboratory-sidebar></app-laboratory-sidebar>
+
+
+    <div class="content-wrapper">
+        <div class="content-header">
+              <div class="container-fluid">
+                    <div class="row mb-2">
+                            <div class="col-sm-6">
+                                   <h1 class="m-0">Patient Laboratory Test</h1>
+                            </div><!-- /.col -->
+                            <div class="col-sm-6">
+                                 <ol class="breadcrumb float-sm-right">
+                                       <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                       <li class="breadcrumb-item active">patient list</li>
+                                 </ol>
+                            </div><!-- /.col -->
+                    </div><!-- /.row -->
+               </div><!-- /.container-fluid -->
+        </div>
+        <section class="content">
+            <div class="container-fluid">
+                   
+
+                     <div class="row">
+                           <div class="col-md-12">
+                                 <div class="card card-primary card-tabs">
+                                       <div class="card-header p-0 pt-1">
+                                        <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                                          <li class="nav-item">
+                                            <a class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill" href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home" aria-selected="true">In Patient List</a>
+                                          </li>
+                                          <li class="nav-item">
+                                            <a class="nav-link" id="custom-tabs-three-profile-tab" data-toggle="pill" href="#custom-tabs-three-profile" role="tab" aria-controls="custom-tabs-three-profile" aria-selected="false">Patient Search</a>
+                                          </li>
+                                        </ul>
+                                       </div>
+                                       <div class="card-body">
+
+                                               <div class="tab-content" id="custom-tabs-three-tabContent">
+
+                                                    <div class="tab-pane fade show active" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
+                                                           <div class="container">
+                                                                  <div class="row">
+
+                                                                        <div class="col-md-12 col-12">
+                                                                              <div class="table-resopnsive">
+
+                                                                                <table class="table table-striped">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th>Name</th>
+                                                                                            <th>Case Number</th>
+                                                                                            <th>Total Cost</th>
+                                                                                            <th>Payment Status</th>
+                                                                                            <th>View Details</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                         <tr *ngFor="let patient of waiting_patient_lab">
+                                                                                              <td>{{patient.patient}}</td>
+                                                                                              <td>{{patient.case_number}}</td>
+                                                                                              <td>{{patient.total_cost}}</td>
+                                                                                              <td *ngIf="patient.payment_status==false;else payment">no payment made</td>
+                                                                                              <ng-template #payment>
+                                                                                                <td> paid</td>
+                                                                                              </ng-template>
+                                                                                              <td>
+                                                                                                <a [routerLink]="['/laboratory','patient-laboratory','patient-laboratory-details',patient.case_number]">view case details</a>
+                                                                                            </td>
+                                                                                         </tr>
+                                                                                    </tbody>
+                                                                                
+                                                                                </table>
+
+                                                                              </div>
+
+                                                                        </div>
+                                                                  </div>
+                                                           </div>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="custom-tabs-three-profile" role="tabpanel" aria-labelledby="custom-tabs-three-profile-tab">
+                                                           <div class="row">
+                                                                 <div class="col-md-12 col-12">
+                                                                        <div class="form-group">
+                                                                            <input type="text" name="" class="form-control">
+                                                                        </div>
+                                                                 </div>
+                                                           </div>
+                                                    </div>
+
+
+
+
+                                               </div>
+
+                                       </div>
+                                 </div>
+                           </div>
+                     </div>
+
+            </div>
+        </section>
+
+
+    </div>
+
+
+    <app-footer></app-footer>
+</div> 
+
+<!--<div class="">
+      <div>
+          <h5>patient list</h5>
+
+          {{waiting_patient_lab|json}}
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div>
+          <h5>search patient</h5><br>
+          
+      </div>
+</div>--->

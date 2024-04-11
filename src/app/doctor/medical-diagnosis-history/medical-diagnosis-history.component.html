@@ -1,0 +1,74 @@
+<div class="wrapper">
+    <app-topnavbar></app-topnavbar>
+    <app-doctor-sidebar></app-doctor-sidebar>
+    <div class="content-wrapper">
+        <div class="content-header">
+              <div class="container-fluid">
+                    <div class="row mb-2">
+                            <div class="col-sm-6">
+                                   <h1 class="m-0">Medical Care</h1>
+                            </div><!-- /.col -->
+                            <div class="col-sm-6">
+                                 <ol class="breadcrumb float-sm-right">
+                                       <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                       <li class="breadcrumb-item active">Patient Mdical History Diagnosis</li>
+                                 </ol>
+                            </div><!-- /.col -->
+                    </div><!-- /.row -->
+               </div><!-- /.container-fluid -->
+        </div> 
+
+        <section class="content">
+            <div class="container-fluid">
+                   <div class="row">
+                         <div class="col-md-4">
+                               <div class="card">
+                                     <div class="card-header">
+                                          <h5 class="card-title">Patient Bio</h5>
+                                     </div>
+                                     <div class="card-body"></div>
+                               </div>
+                         </div>
+                         <div class="col-md-8">
+
+                            <div class="card">
+                                <div class="card-header">
+                                       <h5 class="card-title">Diagnosis History</h5>
+                                </div>
+                                <div class="card-body">
+                                           <div class="table table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Case Number</th>
+                                                            <th>Checked in Date</th>
+                                                            <th>Checked out Date</th>
+                                                            <th>View History Details</th>
+                                                        </tr>
+
+                                                    </thead>
+                                                    <tbody>
+                                                        <!--{{diagnosis_history|json}}-->
+                                                        <tr *ngFor="let diagnosis of diagnosis_history">
+
+                                                                <td>{{diagnosis.case_number}}</td>
+                                                                <td>{{diagnosis.checked_in_time}}</td>
+                                                                <td>{{diagnosis.time_checked_out}}</td>
+                                                                <td><a [routerLink]="['/medical-care','patient',diagnosis.case_number]">view details history</a></td>
+                                                        </tr>
+                                                    </tbody>
+
+                                                </table>
+                                           </div>
+                                </div>
+                            </div>
+
+                         </div>
+                   </div>
+            </div>
+        </section>
+    </div>
+
+
+    <app-footer></app-footer>
+</div>

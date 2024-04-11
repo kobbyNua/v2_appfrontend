@@ -1,0 +1,87 @@
+<div class="wrapper">
+    
+       <app-srttingsidebar></app-srttingsidebar>
+       <app-topnavbar></app-topnavbar>
+       <div class="content-wrapper">
+              <div class="content-header">
+                    <div class="container-fluid">
+                          <div class="row mb-2">
+                                  <div class="col-sm-6">
+                                         <h1 class="m-0">Settings</h1>
+                                  </div><!-- /.col -->
+                                  <div class="col-sm-6">
+                                       <ol class="breadcrumb float-sm-right">
+                                             <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                             <li class="breadcrumb-item active">opd vitals</li>
+                                       </ol>
+                                  </div><!-- /.col -->
+                          </div><!-- /.row -->
+                     </div><!-- /.container-fluid -->
+              </div>
+      
+              <section class="content">
+                  <div class="container-fluid">
+                               <div class="row">
+                                      <div class="col-md-6">
+                                            <div class="card">
+                                                   <div class="card-header">
+                                                         <h5 class="card-title">OPD Vitals Info</h5>
+                                                   </div>
+                                                   <div class="card-body">
+
+                                                           
+                                                        <table class="table table-striped">
+                                                               <tr>
+                                                                  <td>Vitals</td>
+                                                                  <td>Serial Code</td>
+                                                                  <td>edit</td>
+                                                               </tr>
+                                                              <tr *ngFor="let vitals of opd_vitals">
+                                                                  <td>{{vitals.vitals}}</td>
+                                                                  <td>{{vitals.serial_code}}</td>
+                                                                  <td><a>edit details</a></td>
+                                                              </tr>
+                                                           </table>
+                                                   </div>
+                                            </div>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <div class="card">
+                                                 <div class="card-title">
+                                                         <h5 class="card-title"></h5>
+                                                 </div>
+                                                 <div class="card-body">
+
+                                                      
+
+
+
+                                              <form [formGroup]="opd_forms" (ngSubmit)=" createOPDVital()">
+                                                 <button (click)="addopdinputbox()" class="btn btn-success" type="button">+ add </button><br/><br/>
+                                                   <div formArrayName="opd_vitals">
+                                                     <ng-container *ngFor="let opd_vital of opd_forms.get('opd_vitals')['controls'];index as i">
+                                                         <input type="text"  class="form-control" placeholder="opd vital" formControlName="{{i}}"><button type="button" style="border:none;border-radius:none" (click)="removeInputBox(i)" class="btn btn-danger">remove</button><br>
+                                                         <div class="error-message" *ngIf="opd_forms.controls.opd_vitals.controls[i].invalid && opd_forms.controls.opd_vitals.controls[i].touched">
+                                                               <span class="err-mssage">OPD Vital field empty</span>
+                                                         </div>
+                                                    </ng-container>
+                                                    
+                                                    </div><br>
+                                                    <input type="submit" [disabled]="opd_forms.invalid" class="btn btn-info" value="submit">
+                                               </form>
+                                                 </div>
+                                          </div>
+                                      </div>
+                               </div>
+                  </div>
+              </section>
+       </div>
+
+
+
+
+<!---->
+<!--editing and checking for loops in django backend-->
+
+        <app-footer></app-footer>
+</div>

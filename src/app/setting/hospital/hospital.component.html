@@ -1,0 +1,156 @@
+<div class="wrapper">
+    
+    <app-srttingsidebar></app-srttingsidebar>
+    <app-topnavbar></app-topnavbar>
+
+    <div class="content-wrapper">
+        <div class="content-header">
+              <div class="container-fluid">
+                    <div class="row mb-2">
+                            <div class="col-sm-6">
+                                   <h1 class="m-0">Settings</h1>
+                            </div><!-- /.col -->
+                            <div class="col-sm-6">
+                                 <ol class="breadcrumb float-sm-right">
+                                       <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                       <li class="breadcrumb-item active">regions</li>
+                                 </ol>
+                            </div><!-- /.col -->
+                    </div><!-- /.row -->
+               </div><!-- /.container-fluid -->
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+
+                  <div class="row">
+                        <div class="col-md-8 col-12">
+                                 <div class="card">
+                                       <div class="card-header"></div>
+                                       <div class="card-body">
+
+
+                                                    <table class="table table-striped">
+                                                         <tr>
+                                                             <td>Hospital Name</td>
+        
+                                                             <td>Email</td>
+                                                             <td>Telephone</td>
+                                                             <!--<td>region</td>
+                                                             <td>Town</td>
+                                                             <td>Adminstrator</td>-->
+                                                             <td>Edit Users</td>
+                                                         </tr>
+                                                         <tr *ngFor="let hospital of hospital_details">
+                                                            <td>{{hospital.hospital}}</td>
+                                                            <td>{{hospital.email}}</td>
+                                                            <td>{{hospital.telephone}}</td>
+                                                            <!--<td>{{hospital.region}}</td>
+                                                               <td>{{hospital.town}}</td>
+                                                               <td>{{hospital.administrator}}</td>-->
+                                                           <td><a routerLink="">view details</a></td>
+         
+                                                        </tr>
+                                                  </table>
+
+
+                                       </div>
+                                 </div>
+                        </div>
+                        <div class="col-md-4 col-12">
+                                <div class="card">
+                                       <div class="card-header">
+                                             <h5 class="card-title">Create Hospital Details</h5>
+                                       </div>
+                                       <div class="card-body">
+                                          
+
+
+                                                 <form (ngSubmit)="createHospitalDetails()" [formGroup]="hospital_forms">
+                                                        <div class="form-group">
+                                                             <label>Hospital Name</label>
+                                                             <input type="text" class="form-control" placeholder="hospital name" formControlName="hospital">
+                                                             <div class="error-message" *ngIf="hospital_forms.controls.hospital.touched && hospital_forms.controls.hospital.invalid">
+                                                                     <span>Hospital Field empty</span>
+                                                             </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                               <label>Email</label>
+                                                               <input type="email" class="form-control" placeholder="email" formControlName="email">
+                                                               <div class="error-message" *ngIf="hospital_forms.controls.email.touched && hospital_forms.controls.email.invalid ">
+                                                                   <span>Email Field required</span>
+                                                               </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                              <label>Telephone</label>
+                                                              <input type="text" class="form-control"  placeholder="telephone" formControlName="telephone">
+                                                              <div class="error-message" *ngIf="hospital_forms.controls.telephone.touched && hospital_forms.controls.telephone.invalid || hospital_forms.controls.telephone.dirty">
+                                                                <span>Telephone Field empty and must be 10 digits</span>
+                                                              </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                               <label>Admin Phone No.</label>
+                                                               <input type="text" placeholder="admin telephone"  class="form-control" formControlName="admin_telephone">
+                                                               <div class="error-message" *ngIf="hospital_forms.controls.admin_telephone.touched && hospital_forms.controls.admin_telephone.invalid || hospital_forms.controls.admin_telephone.dirty">
+                                                                   <span>Telephone Field empty and must be 10 digits</span>
+                                                               </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Region</label>
+                                                            <select formControlName="region" class="form-control">
+                                                                <option *ngFor="let region of regions" value="{{region.id}}">{{region.region}}</option>
+                                                            </select>
+                                                            <!--<div class="error-message" *ngIf="hospital_forms.controls.region.touched && hospital_forms.controls.region.invalid || hospital_forms.controls.region.dirty">
+                                                                <span>Region Field Empty</span>
+                                                            </div>-->
+                                                        </div>
+                                                        <div class="form-group">
+                                                              <label>Location</label>
+                                                              <input type="text" class="form-control" placeholder="town" formControlName="town">
+                                                              <div class="error-message" *ngIf="hospital_forms.controls.town.touched && hospital_forms.controls.town.invalid || hospital_forms.controls.town.dirty">
+                                                                <span>Town field required</span>
+                                                              </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                             
+                                                            <label>Admins</label>
+
+                                                            <select class="form-control" formControlName="superuser">
+                                                                <option *ngFor="let users of superusers" value="{{users.id}}">
+                                                                    {{users.name}}
+                                                                </option>
+                                                            </select>
+
+                                                            <!--<div class="error-message" *ngIf="hospital_forms.controls.superuser.touched && hospital_forms.controls.superuser.invalid || hospital_forms.controls.superuser.dirty">
+                                                                <span>Select An Admin</span>
+                                                            </div>--->
+                                                             
+
+                                                        </div>
+                                                         
+                                                    <br>
+                                                     
+                                                      <input type="submit" value="send" [disabled]="hospital_forms.invalid"/>
+                                                </form>
+                                       </div>
+                                </div>
+                        </div>
+                  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div>
+                </section>
+        </div>
+        <app-footer></app-footer>
+    </div>
+<!--left with view hospital details and it staff-->

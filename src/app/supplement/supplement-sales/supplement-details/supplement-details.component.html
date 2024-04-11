@@ -1,0 +1,156 @@
+<div class="wrapper">
+      <app-topnavbar></app-topnavbar>
+      <app-supplement-sidebar></app-supplement-sidebar>
+
+      
+      <div class="content-wrapper">
+            <div class="content-header">
+                  <div class="container-fluid">
+                        <div class="row mb-2">
+                                <div class="col-sm-6">
+                                       <h1 class="m-0">Supplements</h1>
+                                </div><!-- /.col -->
+                                <div class="col-sm-6">
+                                     <ol class="breadcrumb float-sm-right">
+                                           <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                           <li class="breadcrumb-item active">supplement</li>
+                                     </ol>
+                                </div><!-- /.col -->
+                        </div><!-- /.row -->
+                   </div><!-- /.container-fluid -->
+            </div>
+            <section class="content">
+                  <div class="container-fluid">
+                      
+                         <div class="row">
+                               <div class="col-md-8">
+                                     <div class="card">
+                                          <div class="card-header">
+                                                 <h5 class="card-title">
+                                                         Supplement Profile
+                                                 </h5>
+                                          </div>
+                                          <div class="card-body"></div>
+                                     </div>
+                                     <div class="card">
+                                          <div class="card-header">
+                                                  <h5 class="card-title">
+                                                       stocking History
+                                                  </h5>
+                                          </div>
+                                          <div class="card-body">
+
+                                                <table class="table table-bordered">
+                                                      <tr>
+                                                          <td>Date Stocked</td>
+                                                          <td>Qty. Stocked</td>
+                                                          <td>Qty. in stocked before stocking</td>
+                                                          <td>Prev. Qty. Stocked</td>
+                                                          <td>Old Price</td>
+                                                          <td>Stocked by</td>
+                                                      </tr>
+                                                      <tr *ngFor="let stocks of stock_history">
+                                                            <td>{{stocks.date_stocked}}</td>
+                                                            <td>{{stocks.quatity_stocked}}</td>
+                                                            <td>{{stocks.quantity_at_the_time_of_stocking}}</td>
+                                                            <td>{{stocks.previous_quantity_stocked}}</td>
+                                                            <td>{{stocks.previous_price}}</td>
+                                                            <td>{{stocks.stocked_by}}</td>
+                                                      </tr>
+                                                 </table>
+                                          </div>
+                                     </div>
+                               </div>
+                               <div class="col-md-4 col-12">
+                                       <div class="card">
+                                              <div class="card-header">
+                                                    <h5 class="card-title">Update Supplement Stock</h5>
+                                              </div>
+                                             <div class="card-body">
+
+                                                
+                                                <form (ngSubmit)="takeStocks(updateStocks)"  #updateStocks="ngForm">
+                                                    <div class="bg-success p-2" *ngIf="dietary_update_status == 'success';else errorMsg">
+                                                            {{dietary_update_response}}
+                                                    </div>
+                                                    <ng-template #errorMsg>
+                                                         <div class="bg-error p-2" *ngIf="dietary_update_status =='error'">
+                                                             {{dietary_update_response}}
+                                                         </div>
+                                                    </ng-template>
+                                                    <div class="form-group">
+                                                          <label for="price">Price</label>
+                                                          <input type="text" class="form-control" required placeholder="enter price 0.00" name="price" ngModel>
+                                                    </div>
+                                                    <div class="form-group">
+                                                          <label for="quantity">Quantity</label>
+                                                          <input type="text" class="form-control" required name="quantity" ngModel>
+                                                    </div>
+                                  
+                                                     
+                                                     <input type="hidden" name="serial_code"  [(ngModel)]="dietary_serial_code" ngModel>
+                                                     <button type="submit"   class="btn btn-info">update stock</button>
+                                                
+                                                </form>
+
+
+
+
+                                             </div>
+                                       </div>
+
+                                       <div class="card">
+                                          <div class="card-header">
+                                                <h5 class="card-title">Update Dietary Details</h5>
+                                          </div>
+                                         <div class="card-body">
+                                          
+                                          <form (ngSubmit)="updateSupplement(updatesupplements)"  #updatesupplements="ngForm">
+                                                <div class="bg-success p-2" *ngIf="supplement_details_status=='success'">
+                                                      {{supplement_details_update}}
+                                                </div>
+                                                <div class="form-group">
+                                                      <input type="text" class="form-control" name="supplement" [(ngModel)]="supplement_name" ngModel>
+                                                </div>
+                                                
+                                                <input type="hidden" name="serial_code"  [(ngModel)]="dietary_serial_code" ngModel>
+                                                <button type="submit"  class="btn btn-info">update supplement</button>
+                                          </form>
+                                         </div>
+                                      </div>
+                               </div>
+                         </div>
+                            
+
+                  </div>
+            </section>
+      </div>
+  
+<!--{{stock_history|json}}<br>
+{{dietary_serial_code}}
+{{supplement_name}}
+<table>
+     <tr>
+         <td>Date Stocked</td>
+         <td>Quantity Stocked</td>
+         <td>Quantity in stocked before stocking</td>
+         <td>Previous Quantity Stocked</td>
+         <td>Old Price</td>
+         <td>Stocked by</td>
+     </tr>
+     <tr *ngFor="let stocks of stock_history">
+           <td>{{stocks.date_stocked}}</td>
+           <td>{{stocks.quatity_stocked}}</td>
+           <td>{{stocks.quantity_at_the_time_of_stocking}}</td>
+           <td>{{stocks.previous_quantity_stocked}}</td>
+           <td>{{stocks.previous_price}}</td>
+           <td>{{stocks.stocked_by}}</td>
+     </tr>
+</table>
+
+
+-->
+
+
+        <app-footer></app-footer>
+</div> 

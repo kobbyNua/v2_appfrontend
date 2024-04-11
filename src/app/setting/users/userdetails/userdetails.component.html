@@ -1,0 +1,89 @@
+<div class="wrapper">
+    
+    <app-srttingsidebar></app-srttingsidebar>
+    <app-topnavbar></app-topnavbar>
+
+    <div class="content-wrapper">
+        <div class="content-header">
+              <div class="container-fluid">
+                    <div class="row mb-2">
+                            <div class="col-sm-6">
+                                   <h1 class="m-0">Users</h1>
+                            </div><!-- /.col -->
+                            <div class="col-sm-6">
+                                 <ol class="breadcrumb float-sm-right">
+                                       <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                       <li class="breadcrumb-item active">setting</li>
+                                 </ol>
+                            </div><!-- /.col -->
+                    </div><!-- /.row -->
+               </div><!-- /.container-fluid -->
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                       <div  class="col-md-6">
+                              <div class="card">
+                                    <div class="card-header">
+
+                                    </div>
+                                    <div class="card-body">
+
+
+
+                                        <form  (ngSubmit)="editStaffInfo(editInfo)" #editInfo="ngForm">
+                                            {{response}}
+                                                <div class="form-group">
+                                                    <label for="firtsName">First Name</label>
+                                                    <input type="text" id="firtsName" class="form-control" value="{{first_name}}" name="first_name" [(ngModel)]="first_name" ngModel>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="lastName">Last Name</label>
+                                                    <input type="text" id="lastName" class="form-control"   value="{{last_name}}" name="last_name" [(ngModel)]="last_name" ngModel>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="hidden" class="form-control" value="{{email}}" name="email" [(ngModel)]="email" ngModel>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="hidden" value="{{user_id}}" class="form-control" name="user_id" [(ngModel)]="user_id" ngModel>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="hidden" value="{{staff_id}}" class="form-control" name="staff_id" [(ngModel)]="staff_id" ngModel>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="telehone">Telephone</label>
+                                                    <input type="text" id="telephone" value="{{telephone}}" class="form-control" name="telephone" [(ngModel)]="telephone" ngModel>
+                                                </div> 
+
+                      
+                                             
+                                             <input type="submit" >
+                                        </form>
+                                    </div>
+                              </div>
+                       </div>
+                       <div  class="col-md-6">
+                              <div class="card">
+                                    <div class="card-header">
+
+                                    </div>
+                                    <div class="card-body">
+                                        
+                                    </div>
+                              </div>                        
+                       </div>
+                </div>
+
+
+            </div>
+        </section>
+    </div>
+
+    <app-footer></app-footer>
+</div>
+     
+
+
+
+

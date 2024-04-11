@@ -1,0 +1,101 @@
+<div class="wrapper">
+    
+    <app-srttingsidebar></app-srttingsidebar>
+    <app-topnavbar></app-topnavbar>
+
+
+
+
+    <div class="content-wrapper">
+        <div class="content-header">
+              <div class="container-fluid">
+                    <div class="row mb-2">
+                            <div class="col-sm-6">
+                                   <h1 class="m-0">Settings</h1>
+                            </div><!-- /.col -->
+                            <div class="col-sm-6">
+                                 <ol class="breadcrumb float-sm-right">
+                                       <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                       <li class="breadcrumb-item active">groups</li>
+                                 </ol>
+                            </div><!-- /.col -->
+                    </div><!-- /.row -->
+               </div><!-- /.container-fluid -->
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+
+                   <div class="row">
+                          <div class="col-md-3">
+                                <div class="card">
+                                       <div class="card-header">
+                                            <h5 class="card-title">View Groups</h5>
+                                       </div>
+                                       <div class="card-body">
+                                        <table class="table table-striped">
+                                            <tr>
+                                                <th>Group</th>
+                                                <th>edit Groups</th>
+                                            </tr>
+                                            <tr *ngFor="let groups of group">
+                                                 <td>{{groups.groups}}</td>
+                                                 <td><a routerLink="">edit</a></td>
+                                            </tr>
+                                        </table>
+                                       </div>
+                                </div>
+                          </div>
+                          <div class="col-md-9">
+                                <div class="card">
+                                       <div class="card-header"></div>
+                                       <div class="card-body">
+                                               
+
+                                        <form  (ngSubmit)="createGroups()" [formGroup]="groups_forms">
+                                            <button (click)="addGroup()" type="button" class="btn btn-success">add field</button>
+                                            <div formArrayName="groups">
+                                                   
+                                                   <div  *ngFor="let group of groups_forms.get('groups')['controls'];index as i">
+                                                        <div class="col-md-9 col-8">
+
+                                                            <div class="form-group">
+
+                                                                <input type="text"  formControlName="{{i}}" class="form-control"  placeholder="enter group name"><button (click)="removeGroup(i)" type="button"  class="btn btn-danger">-</button>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-3 col-4">
+                                                            <div class="form-group"></div>
+                                                        </div>
+
+                                                        
+                                                   </div>
+                                                   
+                                            </div>
+                                            
+                                            <input type="submit" style="border:none;border-radius:0" [disabled]="groups_forms.invalid" class="btn btn-info" value="create groups">
+                                        </form>
+
+
+                                       </div>
+                                </div>
+                          </div>
+                   </div>
+            </div>
+        </section>
+
+    </div>
+
+
+
+
+
+
+    <app-footer></app-footer>
+</div>
+<!--
+
+<h3>Create Forms</h3>
+
+-->

@@ -1,0 +1,84 @@
+<div class="wrapper">
+    <app-topnavbar></app-topnavbar>
+    <app-supplement-sidebar></app-supplement-sidebar>
+    <div class="content-wrapper">
+
+        <div class="content-header">
+            <div class="container-fluid">
+                   <div class="row mb-2">
+                        <div class="col-sm-6">
+                               <h1 class="m-0">Daily Sales Reports</h1>
+                        </div><!-- /.col -->
+                        <div class="col-sm-6">
+                               <ol class="breadcrumb float-sm-right">
+                                   <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                   <li class="breadcrumb-item active">supplement/Reports</li>
+                               </ol>
+                        </div><!-- /.col -->
+                   </div><!-- /.row -->
+             </div><!-- /.container-fluid -->
+       </div>
+
+       <section class="content">
+            <div class="container-fluid">
+                  <div class="row">
+                        <div class="col-md-3">
+                               <div class="card">
+                                      <div class="card-header">
+                                          <h5 class="card-title">Daily Summary Reports</h5>
+                                      </div>
+                                      <div class="card-body">
+                                            <h5>Total Items Sold: {{total_items_sold}}</h5>
+                                            <h5>Total Quantity Sold: {{total_items_quantity_sold}}</h5>
+                                            <h5>Total Daily Market Sales: GHS {{total_profit_crew}}</h5>
+                                      </div>
+                               </div>
+                        </div>
+                        <div class="col-md-9">
+                                <div class="card">
+                                      <div class="card-header">
+                                          <h5 class="card-title">Daily Supplements Sales Report Details</h5>
+                                      </div>
+                                      <div class="card-body">
+                                            <table class="table table-bordered">
+                                                <thead>
+
+
+                                                    <tr>
+                                                        <th>Supplement</th>
+                                                        <th>Quantity Sold</th>
+                                                        <th>Quantity ln stock</th>
+                                                        <th>Cost per Quantity</th>
+                                                        <th> Income</th>
+                                                        <th>view details</th>
+                                                        
+                                                    </tr>
+
+                                                </thead>
+                                                <tbody>
+                                                   <!--{{reports|json}}-->
+                                                    <tr *ngFor="let report of reports;index as i">
+                                                         
+                                                               <td>{{report.dietary__supplement}}</td>
+                                                               <td>{{report.total_quantity}}</td>
+                                                               <td>{{report.dietary__quatity_in_stocked}}</td>
+                                                               <td>GHS {{report.dietary__price}}</td>
+                                                               <td>GHS {{report.total_profit_crew}}</td>
+                                                               <td><a [routerLink]="['/reports','daily-supplement-sales-details-report',report.dietary__serial_code]" title="click to view">view sales detail</a></td>
+                                                         
+                                                    </tr>
+                                                </tbody>
+
+                                            </table>
+                                      </div>
+                                </div>
+                        </div>
+                  </div>
+            </div>
+        </section>
+
+    </div>
+
+
+    <app-footer></app-footer>
+</div>

@@ -1,0 +1,440 @@
+<div class="wrapper">
+     <app-topnavbar></app-topnavbar>
+     <app-doctor-sidebar></app-doctor-sidebar>
+     <div class="content-wrapper">
+         <div class="content-header">
+               <div class="container-fluid">
+                     <div class="row mb-2">
+                             <div class="col-sm-6">
+                                    <h1 class="m-0">Patient Medicals</h1>
+                             </div><!-- /.col -->
+                             <div class="col-sm-6">
+                                  <ol class="breadcrumb float-sm-right">
+                                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                        <li class="breadcrumb-item active">patient</li>
+                                  </ol>
+                             </div><!-- /.col -->
+                     </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+         </div> 
+ 
+         <section class="content">
+             <div class="container-fluid">
+
+                    <div class="row">
+                           <div class="col-md-6 col-12">
+                              <div class="card">
+                                   <!--{{patient_diagonsis|json}}-->
+                                   <div class="card-header">
+                                      <h5 class="card-title">Patient Bio</h5>
+                                   </div>
+                                   <div class="card-body">
+                                      <!--{{card_numbers}}-->
+  
+                                      <div class="text-center">
+                                          <i class="fa fa-user-circle fa-5x"></i>
+                                          <!--<img class="profile-user-img img-fluid img-circle"
+                                               src="/node_modules/admin-lte/dist/img/user4-128x128.jpg"
+                                               alt="User profile picture">-->
+                                      </div>
+                                      <h3 class="profile-username text-center">{{first_name|uppercase}} {{last_name|uppercase}}</h3>
+  
+  
+                                      <ul class="list-group list-group-unbordered mb-3">
+                                          <li class="list-group-item">
+                                            <b>Card Number</b> <a class="float-right">{{card_numbers}}</a>
+                                          </li>
+                                          <li class="list-group-item">
+                                            <b>Case Number</b> <a class="float-right">{{case_number}}</a>
+                                          </li>
+                                      </ul>
+                                   </div>
+                             </div>
+
+
+
+                                    <div class="card">
+                                          <div class="card-header">
+                                                <h5 class="card-title">OPD Vitals</h5>
+                                          </div>
+                                          <div class="card-body">
+                                             <table class="table table-striped">
+                                                  <thead>
+                                                       <tr>
+                                                          <td>Vital</td>
+                                                          <td>Results</td>
+                                                       </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                       <tr *ngFor="let vital of opd_vitals">
+                                                            <td>{{vital.vitals}}</td>
+                                                            <td>{{vital.result}}</td>
+                                                       </tr>
+                                                  </tbody>
+                                
+                                            </table>
+                                          </div>
+                                    </div>
+
+                                    <div class="card">
+                                         <div class="card-header">
+                                                <h5 class="header">Laboratory Sections</h5>
+                                         </div>
+                                         <div class="card-body">
+
+
+
+                                             <div class="">
+                                             
+                                                  {{select_lab_type}}
+                                                  <div *ngIf="patient_lab_status == 'no lab test';else pending">
+                                           
+                                                        <form >
+                                                            <div class="form-group">
+                                                                 <select  class="form-control" (change)="getLabType($event)" name="in_house_lab_types" ngModel>
+                                                                    <option></option>
+                                                                    <option value="true">In house laboratory</option>
+                                                                    <option value="false">Out laboratory</option>
+                                                                 </select>
+                                                            </div>
+                                               
+                                               
+                                                          
+                                               
+                                                        </form>
+                                           
+                                                        <div class="" *ngIf="select_lab_type == 'true';else outside">
+                                           
+                                                                <form>
+                                                                    <div class="form-group">
+                                                                         <select class="form-control" (change)="getlabTestType($event)" name="lab_test_ling" ngModel>
+                                                                           <option *ngFor="let test_list of lab_test_list" value="{{test_list.serial_code}}">{{test_list.lab_test}}</option>
+                                                                         </select>
+                                                                   </div>
+                                                                </form>
+                                                                <form [formGroup]="lab_form_group" #labTestForm="ngForm" (ngSubmit)="submitLab(labTestForm)">
+                                                                     <div class="msg-box">
+                                                                           <div class="" *ngIf="lab_request_status=='success'; else errorsMsg">
+                                                                                   <div class="bg-success p-2">
+                                                                                       {{lab_request_response}}
+                                                                                   </div>
+                                                                           </div>
+                                                                           <ng-template #errorsMsg class="bg-danger p-2">
+                                                                                   
+                                                                                         {{lab_request_response}}
+                                                                                   
+                                                                           </ng-template>
+                                                                     </div>
+                                                                     <div>
+                                                                         <input type="hidden" formControlName="case_number">
+                                                                         <input type="hidden" formControlName="lab_test_request_status">
+                                                                     </div>
+                                           
+                                                                     
+                                                                       <div formArrayName="test_detail_form">
+                                                                             <table class="table table-striped">
+                                                                                <thead>
+                                                                                     <th>Test</th>
+                                                                                     <th>Cost</th>
+                                                                                     <th>Remove</th>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                <tr *ngFor="let test of lab_form_group.get('test_detail_form')['controls'];index as i" formGroupName="{{i}}">
+                                                                                  <td>{{lab_form_group.value.test_detail_form[i].test_type}} </td> 
+                                                                                  <td>{{lab_form_group.value.test_detail_form[i].test_cost}}</td> 
+                                                                                   <td>
+                                                                                      <input type="hidden" formControlName="serial_code">
+                                                                                      <button type="button" class="btn btn-danger" (click)="removeCheckLabTestForms(i)">remove</button> 
+                                                                                   </td>
+                                                                                 </tr>
+                                                                                </tbody>
+                                                                                <tfoot>
+                                                                                     <tr>
+                                                                                          <td>Total</td>
+                                                                                          <td></td>
+                                                                                          <td>GHS {{total_lab_cost}}</td>
+                                                                                     </tr>
+                                                                                </tfoot>
+                                                                              </table>
+                                                                              
+                                                                      </div>
+                                                                    <button type="submit" class="btn btn-success">Request Lab Test</button>
+                                                              
+                                               
+                                                               </form>
+                                               
+                                                      </div>
+                                           
+                                           
+                                                      <ng-template #outside>
+                                           
+                                           
+                                                          <form>
+                                                       
+                                                              <input type="file" style="width:45%;border:1px solid #333;height:20px"><br/><br/>
+                                              
+                                                         </form>
+                                              
+                                                     </ng-template>
+                                           
+                                           
+                                           
+                                                  </div>
+                                           
+                                           
+                                           
+                                           
+                                           
+                                           </div>
+
+                                           <ng-template #pending>
+       
+                                             <div *ngIf="patient_lab_status == 'lab test results pending';else ready">
+                                                  {{patient_lab_status}}
+                                        
+                                             </div>
+                                             <ng-template #ready>
+                                                  
+                                                      <table class="table table-striped">
+                                                           <tr>
+                                                               <td>Laboratory Test</td>
+                                                               <td>Serial Code</td>
+                                                               <td>Results</td>
+                                                           </tr>
+                                                           <tr *ngFor="let lab_test of patient_lab_result">
+                                                                  <td>{{lab_test.test}}</td>
+                                                                  <td>{{lab_test.serial_code}}</td>
+                                                                  <td>{{lab_test.test_results}}</td>
+                                                           </tr>
+                                                      </table>
+                                             </ng-template>
+                                             
+                                        
+                                        </ng-template>
+
+
+
+                                         </div>
+                                    </div>
+
+                           </div>
+                           <div class="col-md-6 col-12">
+
+                                   <div class="card">
+                                        <div class="card-header">
+                                         <h5 class="card-title">PATIENT COMPLAINS</h5>
+                                        </div>
+                                        <div class="card-body">     
+                                             <div *ngIf="patient_complains =='';else patientComplains">
+                                                  <div class="complains-msg-box">
+                                                         <div *ngIf="patient_complains_response === 'success'" class="bg-success p-4">
+                                                                <p>{{patient_complaints_message}}</p>
+                                                         </div>
+                                                  </div>
+                                                  <form  (ngSubmit)="submitPatientComplaints(complains)" #complains="ngForm">
+                                                       <div class="form-group">
+                                                            <textarea  class="form-control" placeholder="Enter patient Complaints" name="patient_complains" ngModel></textarea>
+                                                       </div>
+                                                       
+                                                       <input type="hidden" name="case_number" [(ngModel)]="case_number" ngModel>
+                                                       <button type="submit" class="btn btn-success">submit patient complains</button>
+                                                  </form>
+                                             </div>
+                                             <ng-template #patientComplains>
+                                                   <span>{{patient_complains}}</span>
+                                             </ng-template>
+                                                  
+                                             
+
+                                        </div>
+                                   </div>
+
+                                   <div class="card">
+                                        <div class="card-header">
+                                         <h5 class="card-title">Doctor Diagnosis Report</h5>
+                                        </div>
+                                        <div class="card-body">
+
+                                             
+                                             <div *ngIf="doctor_diagnosis =='';else doctorDiagnosis">
+                                                  <form #diagnosis="ngForm" (ngSubmit)="submitDoctorDiagnosis(diagnosis)">
+                                                       <div class="complains-msg-box">
+                                                            <div *ngIf="doctor_diagnosis_resposne === 'success'" class="bg-success p-4">
+                                                                   <p>{{doctor_diagnosis_complain_response}}</p>
+                                                            </div>
+                                                       </div>
+                                                      
+                                                       <div class="form-group">
+                                                            <textarea class="form-control" placeholder="enter diagnosis reports" name="doctor_diagnosis" ngModel></textarea>
+                                                       </div>  
+                                                       
+                                                         <input type="hidden" name="case_number" [(ngModel)]="case_number" ngModel>
+                                                         <button type="submit" class="btn btn-success">submit patient diagnosis</button>
+                                                  </form>
+                                             </div>
+                                             <ng-template #doctorDiagnosis>
+                                                 {{doctor_diagnosis}}
+                                             </ng-template>
+
+
+                                        </div>
+                                   </div>
+
+                                   <div class="card">
+                                        <div class="card-header">
+                                               <h5 class="header">Dietary Supplements Sections</h5>
+                                        </div>
+                                        <div class="card-body">
+
+
+
+                                             <div class="">
+                                                  
+                                                  <div *ngIf="patient_dietary_status == 'no supplement dispensed';else dietaryPending">
+                                                     <div class="form-group">
+
+                                                            <select class="form-control" (change)="getSupplementValue($event)">
+                                                                 <option *ngFor="let supplement of supplement_list" value="{{supplement.serial_code}}">{{supplement.supplement}}</option>
+                                                           </select>
+
+                                                     </div>
+
+                                                     <form [formGroup]="supplement_forms" #myForm='ngForm' (ngSubmit)="submitSupplements(myForm)">
+                                                           <div *ngif="supplement_status" class="bg-success">
+                                                                  <p>{{supplement_request}}</p>
+                                                           </div>
+                                                           <input type="hidden" formControlName="case_numbers">
+                                                           <div formArrayName="dietary_forms">
+                                                                  <table class="table table-striped">
+
+                                                                        <tr *ngFor="let dietary_list of supplement_forms.get('dietary_forms')['controls'];index as i" formGroupName="{{i}}">
+                                                                           <td>{{supplement_forms.value.dietary_forms[i].supplement}}</td>
+                                                                           <td>
+
+                                                                                <input type="hidden" formControlName="serial_code">  
+                                                                                <button type="button" class="btn btn-danger" (click)="removeEmptySuppleForm(i)">remove</button>
+                                                                           </td>
+                                                                                      
+                                                    
+                                                                        </tr>
+
+                                                                  </table>
+
+                                                           </div>
+                                              
+                                                           <button type="submit" class="btn btn-success">preescribe supplement</button>
+                                                           
+                                                     </form>
+                                                  </div>
+                                           
+                                                  <ng-template #dietaryPending>
+                                                  
+                                                       <div *ngIf="patient_dietary_status == 'supplement pending';else dispensed">
+                                                           <span>{{patient_dietary_status}}</span> 
+                                                       </div>
+                                                       <ng-template #dispensed>
+                                                       
+                                                        <table class="table table-striped">
+                                                            <thead>
+                                                                 <tr>
+                                                                     <th>Supplement</th>
+                                                                     <th>Serial Code</th>
+                                                                 </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                 <tr *ngFor="let supplement of patient_dietary">
+                                                                    <td>{{supplement.supplements}}</td>
+                                                                    <td>{{supplement.serial_code}}</td>
+                                                                 </tr>
+                                                            </tbody>
+                                                        </table>
+                                                       </ng-template>
+                                                  </ng-template>
+                                           
+                                           
+                                           </div>
+
+
+                                        </div>
+                                   </div>
+
+                           </div>
+                    </div>
+                    <div class="row">
+                           <div class="col-md-12">
+                                 <div class="card">
+                                       <div class="card-header">
+                                             <h5 class="card-title">Patient Diagnosis History</h5>
+                                       </div>
+                                       <div class="card-body">
+
+
+                                        <table class="table table-striped">
+                                             <thead>
+                                                  <tr>
+                                                       <th>Case Number</th>
+                                                       <th>Date Checked In</th>
+                                                       <th>View Details</th>
+                                                  </tr>
+                                             </thead>
+                                             <tbody>
+                                                  <tr *ngFor="let medic_history of patient_medical_history">
+                                                         <td>{{medic_history.case_number}}</td>
+                                                         <td>{{medic_history.checked_in_date}}</td>
+                                                         <td><a [routerLink]="['/medical-care','patient',medic_history.case_number]">view details</a></td>
+                                                  </tr>
+                                             </tbody>
+                                        </table>
+
+
+
+                                       </div>
+                                 </div>
+                           </div>
+                    </div>
+
+             </div>
+         </section>
+     </div>
+     <app-footer></app-footer>
+</div>
+<!--what to work on
+    * labortory test both ouside and inside process backends
+-->
+
+<!--<p>patient-medic-care works!</p>
+
+<p>patient-medical-details works!</p>
+
+{{patient_diagonsis|json}}
+
+<br><br>
+
+{{opd_vitals|json}}
+<div>
+     <h4>Patient Opd vitals</h4>
+
+     <div class="">
+
+     </div>
+</div>
+
+<div class="">
+      <h4>doctor patient diagnosis</h4>
+
+
+      <div>
+
+        
+      </div>
+</div>
+
+
+
+
+
+
+
+
+{{patient_medical_history|json}}-->
+<!--what left current case and patient history records-->

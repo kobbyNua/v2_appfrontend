@@ -1,0 +1,192 @@
+<div class="wrapper">
+    <app-topnavbar></app-topnavbar>
+    <app-doctor-sidebar></app-doctor-sidebar>
+    <div class="content-wrapper">
+        <div class="content-header">
+              <div class="container-fluid">
+                    <div class="row mb-2">
+                            <div class="col-sm-6">
+                                   <h1 class="m-0">Medical Care</h1>
+                            </div><!-- /.col -->
+                            <div class="col-sm-6">
+                                 <ol class="breadcrumb float-sm-right">
+                                       <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                       <li class="breadcrumb-item active">patient</li>
+                                 </ol>
+                            </div><!-- /.col -->
+                    </div><!-- /.row -->
+               </div><!-- /.container-fluid -->
+        </div> 
+
+        <section class="content">
+            <div class="container-fluid">
+
+
+                <!--{{waitng_patient|json}}-->
+                <div class="row">
+                       <div class="col-md-12">
+                            <div class="card card-primary card-tabs">
+                                    
+                                <div class="card-header p-0 pt-1">
+                                    <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+
+
+                                              <li class="nav-item">
+                                                <a class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill" href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home" aria-selected="true">Total Patient </a>
+                                              </li>
+                                              <li class="nav-item">
+                                                <a class="nav-link" id="custom-tabs-three-profile-tab" data-toggle="pill" href="#custom-tabs-three-profile" role="tab" aria-controls="custom-tabs-three-profile" aria-selected="false">Waiting Patient List</a>
+                                              </li>
+
+                                              <li class="nav-item">
+                                                <a class="nav-link" id="custom-tabs-three-search-tab" data-toggle="pill" href="#custom-tabs-three-search" role="tab" aria-controls="custom-tabs-three-profile" aria-selected="false">Search</a>
+                                              </li>
+                                    </ul>
+                              </div>
+
+                              <div class="card-body">
+                                   <div class="tab-content" id="custom-tabs-three-tabContent">
+
+                                    <div class="tab-pane fade show active" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
+
+                                         total
+
+                                    </div> 
+                                    <div class="tab-pane fade" id="custom-tabs-three-profile" role="tabpanel" aria-labelledby="custom-tabs-three-profile-tab">
+                                            <div class="table-responsive">
+                                                  <table class="table  table-bordered">
+                                                         <thead>
+                                                               <tr>
+                                                                   <th>Patient Name</th>
+                                                                   <th>Case Number</th>
+                                                                   <th>Card Number</th>
+                                                                   <th>Time Checked IN</th>
+                                                                   <th>Diagonsis</th>
+                                                               </tr>
+                                                         </thead>
+
+                                                         <tbody>
+                                                              <tr *ngFor="let patient of waitng_patient">
+                                    
+                                                                   <td>{{patient.patient_name}}</td>
+                                                                   <td>{{patient.case_number}}</td>
+                                                                   <td>{{patient.card_number}}</td>
+                                                                   <td>{{patient.checked_in}}</td>
+                                                                   <td><a [routerLink]="['/medical-care','patient',patient.case_number]">procede to diagnosis</a></td>
+                                                               </tr>
+                                                         </tbody>
+
+
+
+                                                   </table>
+                                              </div>
+                                         <!--<div class="row">
+                                               <div class="col-md-12 col-12">
+                                                      <table class="table  table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Patient Name</th>
+                                                                <th>Case Number</th>
+                                                                <th>Card Number</th>
+                                                                <th>Time Checked IN</th>
+                                                                <th>Diagonsis</th>
+                                                            </tr>
+                                                       </thead>
+
+                                                       <tbody>
+                                                        <tr *ngFor="let patient of waitng_patient">
+                                            
+                                                               <td>{{patient.patient_name}}</td>
+                                                               <td>{{patient.case_number}}</td>
+                                                               <td>{{patient.card_number}}</td>
+                                                               <td>{{patient.checked_in}}</td>
+                                                               <td><a [routerLink]="['/medical-care','patient',patient.case_number]">procede to diagnosis</a></td>
+                                                        </tr>
+                                                       </tbody>
+                                                      </table>
+                                               </div>
+                                         </div>-->
+
+                                    </div>  
+                                    <div class="tab-pane fade" id="custom-tabs-three-search" role="tabpanel" aria-labelledby="custom-tabs-three-search-tab">
+                                          
+                                               <div class="row">
+                                                     <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                    <input type="text" class="form-control" (keyup)="searchPatient(search)" #search="ngModel" name="waiting-paitent" placeholder="search waiting patient" ngModel>
+                                                            </div>
+                                                     </div>
+                                               
+                                                   <div class="col-md-12 col-12 mt-2 mb-2">
+                                                         <table class="table table-striped">
+                                                                <thead>
+                                                                      <tr>
+                                                                          <th>Card Number</th>
+                                                                          <th>Fullname</th>
+                                                                          <th>Telephone</th>
+                                                                          <th>Total Visit</th>
+                                                                          <th>View History Dietails</th>
+                                                                      </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                      <!--{{diagnosis_history|json}}-->
+                                                                      <tr *ngFor="let history of diagnosis_history">
+                                                                          <td>{{history.patient__patient__card_number}}</td>
+                                                                          <td>{{history.patient__patient__patient__first_name|titlecase}} {{history.patient__patient__patient__last_name|titlecase}}</td>
+                                                                          <td>{{history.patient__patient__patient__telephone}}</td>
+                                                                          <td>{{history.total_visit}}</td>
+                                                                          <td><a [routerLink]="['/medical-care','mediacal-diagnosis-history',history.patient__patient__card_number]">view diagnosis history</a></td>
+
+                                                                      </tr>
+                                                                </tbody>
+                                                         </table>
+                                                    </div>
+                                                </div>
+                                    </div>
+
+
+                                   </div>
+                              </div>
+
+
+                            </div>  
+                       </div>
+                </div>
+
+            </div>
+        </section>
+
+
+    </div>
+    <app-footer></app-footer>
+</div>   
+<!--
+
+<table>
+      <thead>
+           <tr>
+               <td>Patient Name</td>
+               <td>Case Number</td>
+               <td>Card Number</td>
+               <td>Time Checked IN</td>
+               <td>Diagonsis</td>
+           </tr>
+      </thead>
+      <tbody>
+            <tr *ngFor="let patient of waitng_patient">
+
+                   <td>{{patient.patient_name}}</td>
+                   <td>{{patient.case_number}}</td>
+                   <td>{{patient.card_number}}</td>
+                   <td>{{patient.checked_in}}</td>
+                   <td><a [routerLink]="['/medical-care','patient',patient.case_number]">procede to diagnosis</a></td>
+            </tr>
+      </tbody>
+</table>
+
+<div>
+    <h3>search patient</h3>
+    <input type="text" name="">
+</div>
+
+</div>-->

@@ -1,0 +1,91 @@
+<div class="wrapper">
+    
+    <app-srttingsidebar></app-srttingsidebar>
+    <app-topnavbar></app-topnavbar>
+
+    <div class="content-wrapper">
+        <div class="content-header">
+              <div class="container-fluid">
+                    <div class="row mb-2">
+                            <div class="col-sm-6">
+                                   <h1 class="m-0">Settings</h1>
+                            </div><!-- /.col -->
+                            <div class="col-sm-6">
+                                 <ol class="breadcrumb float-sm-right">
+                                       <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                       <li class="breadcrumb-item active">regions</li>
+                                 </ol>
+                            </div><!-- /.col -->
+                    </div><!-- /.row -->
+               </div><!-- /.container-fluid -->
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+                  <div class="row">
+                        <div class="col-md-6">
+                                <div class="card">
+                                      <div class="card-header">
+                                        <h5 class="card-title">view regions</h5>
+                                      </div>
+                                      <div class="card-body">
+
+
+                                        
+                                        <table class="table table-striped">
+                                            <tr>
+                                                <th>Regions</th>
+                                                <th>Edit Regions</th>
+                                                
+                                            </tr>
+                                            <tr *ngFor="let region of regions">
+                                                <td>{{region.region}}</td>
+                                                <td><a routerLink="#">Edit</a></td>
+                                            </tr>
+                                        </table>
+                                      </div>
+                                </div>
+                        </div>
+                        <div class="col-md-6">
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title">create New Region</h5>
+                                </div>
+                                <div class="card-body">
+
+                                    
+
+                                    <form [formGroup]="region_forms" (ngSubmit)="createNewRegions()">
+                                        {{response}}
+                                           <div class="form-group">
+                                               <label for="region">Region</label>
+                                               <input type="text" pattern="[A-Za-z]" class="form-control" placeholder="region" formControlName="region">
+                                               <div class="error-message" *ngIf="region_forms.controls.region.invalid && region_forms.controls.region.touched">
+                                                     <span class="err-mssage">Region field empty</span>
+                                               </div>
+
+                                           </div>
+                                           
+                                           
+                                           <button type="submit" [disabled]="region_forms.invalid">create new region</button>
+                                    </form>
+                                </div>
+                          </div>
+
+                        </div>
+                  </div>
+
+
+
+
+            </div>
+            </section>
+    </div>
+
+     <app-footer></app-footer>
+</div>
+<!--
+
+    what to work on edit region
+-->

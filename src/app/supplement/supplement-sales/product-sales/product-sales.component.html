@@ -1,0 +1,152 @@
+<div class="wrapper">
+    <app-topnavbar></app-topnavbar>
+    <app-supplement-sidebar></app-supplement-sidebar>
+
+    <div class="content-wrapper">
+                       <div class="content-header">
+                             <div class="container-fluid">
+                                    <div class="row mb-2">
+                                         <div class="col-sm-6">
+                                                <h1 class="m-0">Product Sales</h1>
+                                         </div><!-- /.col -->
+                                         <div class="col-sm-6">
+                                                <ol class="breadcrumb float-sm-right">
+                                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                                    <li class="breadcrumb-item active">supplement</li>
+                                                </ol>
+                                         </div><!-- /.col -->
+                                    </div><!-- /.row -->
+                              </div><!-- /.container-fluid -->
+                        </div>
+                        <section class="content">
+                                <div class="container-fluid">
+                                       <div class="row">
+                                              <div class="col-md-4">
+                                                     <div class="card">
+                                                           <div class="card-header">
+                                                                  <h5 class="card-title">Search Supplement</h5>
+                                                           </div>
+                                                           <div class="card-body">
+                                                                  <div class="form-group">
+                                                                         <select class="form-control select2" (change)="selectSupplemnt($event)">
+                                                                                <option></option>
+                                                                                <option *ngFor="let supplement of supplement_list" value="{{supplement.serial_code}}">{{supplement.supplement}}-{{supplement.quantity}}</option>
+                                                                             
+                                                                         </select>
+                                                                  </div>
+                                                           </div>
+                                                     </div>
+                                              </div>
+                                              <div class="col-md-8">
+                                                     <div class="card">
+                                                           <div class="card-header"></div>
+                                                           <div class="card-body">
+                                                               <form [formGroup]="purchas_forms" (ngSubmit)="makeInventoryPayment()">
+
+                                                                      <div class="row">
+                                                                               <div class="col-md-12">
+                                                                                     <div class="form-group">
+                                                                                            <input type="text" formControlName="telephone" placeholder="enter customer telephone number" style="width:100%;border:1px solid #ddd" class="form-control">
+                                                                                            <!--{{purchas_forms.value|json}}-->
+                                                                                     </div>
+                                                                               </div>
+                                                                              <div class="col-md-12">
+                                                                                    <div formArrayName="purchares_items">
+                                                                                           <div class="table-responsive">
+                                                                                                   <table class="table table-striped">
+                                                                                                           <thead>
+
+
+
+                                                                                                                    <tr>
+                                                                                                                       <th>Supplement</th>
+                                                                                                                       <th>Quantity</th>
+                                                                                                                       <th>Cost/Unit</th>
+                                                                                                                       <th>Sub Total Cost</th>
+                                                                                                                       <th>Remove</th>
+       
+       
+                                                                                                                   </tr>
+
+
+
+                                                                                                           </thead>
+                                                                                                           <tbody>
+
+                                                                                                                 
+
+                                                                                                                <tr *ngFor="let items_list of purchas_forms.get('purchares_items')['controls'];index as i" formGroupName="{{i}}">
+                                                                                                                       <td>{{purchas_forms.value.purchares_items[i].supplement}}</td>
+                                                                                                                       <td><input type="text"  formControlName="quantity"  (change)="priceUpdate(i)" ><input type="hidden" formControlName="serial_code"></td>
+                                                                                                                       <td>{{purchas_forms.value.purchares_items[i].cost}}</td>
+                                                                                                                       <td>{{purchas_forms.value.purchares_items[i].cost * purchas_forms.value.purchares_items[i].quantity}}</td>
+                                                                                                                       <td><button class="btn btn-danger" (click)="removeSupplement(i)">remmove</button></td>
+                                                                                                                      
+                                                                                                                        
+                                                                                                                 
+                                                                                                                  </tr>
+
+
+
+
+                                                                                                           </tbody>
+                                                                                                           <tfoot>
+                                                                                                                <tr>
+                                                                                                                       <td>GHS {{total_cost}}</td>
+                                                                                                                       
+                                                                                                                       <td colspan="2"><input type="text" class="form-control" style="border:1px solid #333;width:65%" placeholder="confirm payment"></td>
+                                                                                                                       <td></td>
+                                                                                                                       
+                                                                                                                       <td><button class="btn btn-info" colspan="2">make payment</button></td>
+                                                                                                                       <td></td> 
+                                                                                                                </tr>
+                                                                                                           </tfoot>
+
+                                                                                                   </table>
+                                                                                           </div>
+                                                                                    </div>
+                                                                              </div>
+                                                                      </div>
+                                                                      <!--
+                                                                          
+
+                                                                             <table class="table table-striped" style="width:130%;">
+                                                                                    <thead>
+                                                                                            <thead style="width:100%">
+                                                                                                  <tr>
+                                                                                                         <th style="width:35%">Supplement</th>
+                                                                                                         <th style="width:25%">quantity</th>
+                                                                                                         <th style="width:25%">Cost per unit</th>
+                                                                                                         <th style="width:35%">Sub total</th>
+                                                                                                  </tr>
+                                                                                            </thead>
+
+                                                                                    </thead>
+                                                                                    <tbody >
+                                                                                            <tr *ngFor="let items_list of purchas_forms.get('purchares_items')['controls'];index as i" formGroupName="{{i}}">
+                                                                                                 <td style="width:35%">{{purchas_forms.value.purchares_items[i].supplement}}</td>
+                                                                                                 <td style="width:25%"><input type="text" formControlName="quantity" style="width:20%"><input type="hidden" formControlName="serial_code"></td>
+                                                                                                 <td style="width:35%">{{purchas_forms.value.purchares_items[i].cost}}</td>
+                                                                                                 <td style="width:25%">{{purchas_forms.value.purchares_items[i].cost * purchas_forms.value.purchares_items[i].quantity}}</td>
+                                                                                                
+                                                                                                
+                                                                                                  
+                                                                                           
+                                                                                            </tr>
+                                                                                    </tbody>
+                                                                            </table>      
+                                                                      </div>
+
+                                                                      </div>-->
+
+                                                               </form>
+
+                                                           </div>
+                                                     </div>
+                                              </div>
+                                       </div>
+                                </div>
+                        </section>
+    </div>
+
+</div>

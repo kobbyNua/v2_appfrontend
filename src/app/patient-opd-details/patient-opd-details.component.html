@@ -1,0 +1,501 @@
+<div class="wrapper">
+    <app-topnavbar></app-topnavbar>
+    <app-patient-sidebar></app-patient-sidebar>
+
+    <div class="content-wrapper">
+
+        <div class="content-header">
+
+            <div class="container-fluid">
+                <div class="row mb-2">
+                        <div class="col-sm-6">
+                               <h1 class="m-0">Patient OPD Details</h1>
+                        </div><!-- /.col -->
+                        <div class="col-sm-6">
+                             <ol class="breadcrumb float-sm-right">
+                                   <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                   <li class="breadcrumb-item active">patient</li>
+                             </ol>
+                        </div><!-- /.col -->
+                </div><!-- /.row -->
+           </div>
+
+
+        </div><!--end of content header-->
+        <section class="content">
+            <div class="container-fluid">
+                {{patient_info|json}}
+                <div class="row">
+                      <div class="col-md-6 col-12">
+                           <div class="card">
+                                 <div class="card-header">
+                                    <h5 class="card-title">Patient Bio</h5>
+                                 </div>
+                                 <div class="card-body">
+                                    <!--{{card_numbers}}-->
+
+                                    <div class="text-center">
+                                        <i class="fa fa-user-circle fa-5x"></i>
+                                        <!--<img class="profile-user-img img-fluid img-circle"
+                                             src="/node_modules/admin-lte/dist/img/user4-128x128.jpg"
+                                             alt="User profile picture">-->
+                                    </div>
+                                    <h3 class="profile-username text-center">{{first_name}} {{last_name}}</h3>
+
+
+                                    <ul class="list-group list-group-unbordered mb-3">
+                                        <li class="list-group-item">
+                                          <b>Card Number</b> <a class="float-right">{{card_numbers}}</a>
+                                        </li>
+                                        <li class="list-group-item">
+                                          <b>Case Number</b> <a class="float-right">{{case_number}}</a>
+                                        </li>
+                                    </ul>
+                                 </div>
+                           </div>
+                           <div class="card">
+                                <div class="card-header">
+                                     <h5 class="card-title">OPD Info</h5>
+                                </div>
+                                <div class="card-body">
+
+
+                                    <div *ngIf="checked_in_status == true;else newCase">
+                                         
+                                        <div *ngIf="payment == true;else cardPayment">
+                                            <div *ngIf="opd_vitals_state==false;else opdResults">
+                                                <div *ngIf="opd_vitals_state == false;">
+
+
+                                                    <form (ngSubmit)="submitVitals()"  [formGroup]="opd_vital_forms">
+                     
+                                                        <div class="msg-box">
+                                                            <div *ngIf="response == 'success';else errMsg" class="bg-success">
+                                                                   <span>{{message}} </span> 
+                                                            </div>
+                                                            <ng-template #errMsg>
+                                                                    {{message}}
+                                                            </ng-template>
+                                                        </div>
+
+                                                        <div formArrayName="vitals_result">
+                                                            <table class="table table-strip">
+                                                                 <tr *ngFor="let labinput of opd_vital_forms.get('vitals_result')['controls'];index as i" formGroupName="{{i}}">
+                                                                     <td>{{opd_vital_forms.value.vitals_result[i].vital_name}}</td>
+                                                                     <td>
+                                                                     <input type="hidden" placeholder="vital_serial_code" name="vital_serial_code" formControlName="vital_serial_code">
+                                                                     <input type="text" placeholder="result" name="result" formControlName="result">
+                                                                     </td>
+                                                                 </tr>
+                                                            </table>
+                                                            
+                                                        
+                                            
+                                                        </div>
+                                                        <input type="hidden" formControlName="case_number" name="case_number"><br>
+                                                        <button type="submit" class="btn btn-info">send opd vitals</button>
+                                            
+                                                    </form>
+
+
+
+
+                                                </div>
+                                            </div>
+
+                                        </div> 
+
+                                    </div>
+                                        
+                                    <ng-template #newCase>
+                                        <h3>Generate new Case</h3>
+                                        <form (ngSubmit)="generateNewCase(newcase)" #newcase="ngForm">
+
+
+                                            <div class="msg-box">
+                                                <div *ngIf="status == 'success';else errMsg" class="bg-success">
+                                                       <span>{{generate_new_case_response}} </span> 
+                                                </div>
+                                                <ng-template #errMsg>
+                                                        {{generate_new_case_response}}
+                                                </ng-template>
+                                            </div>
+                                            <input type="text" name="amount"  ngModel placeholder="card renewal fees is GHS {{patient_info.card_payment_renewal[0].card_charge}}" class="form-control" required>
+                                            <input type="hidden" name="card_number" [(ngModel)]="card_numbers" ngModel><br>
+                                            <button type="submit" style="border:none;padding:10px;border-radius:0%;width:100%" class="btn btn-primary">generate new case</button>
+                                        </form>
+                                   </ng-template>
+                                   <ng-template #cardPayment>
+                                       <form [formGroup]="payment_forms" (ngSubmit)="makePayment()">
+                                        <!--<p>{{response|json}}</p>-->
+                                        <div class="msg-box">
+                                              <div *ngIf="response == 'success';else errMsg" class="bg-success">
+                                                     <span>{{message}} </span> 
+                                              </div>
+                                              <ng-template #errMsg>
+                                                      {{message}}
+                                              </ng-template>
+                                        </div>
+                                        <p>card charges GHS {{card_charge}}</p>
+                                        <div class="row">
+                                             <div class="col-md-12 col-12">
+                                                  <div class="form-group">
+                                                    <input type="text" class="form-control" formControlName="amount" placeholder="GHS {{amountTobePaid}}">
+                                                  </div>
+                                                  <div class="form-group">
+                                                    <input type="hidden" formControlName="case_number" [value]="case_number" >
+                                                  </div>
+                                             </div>
+                                        </div>
+                                       
+                                        <button type="submit" class="btn btn-info">make payments</button>
+                                     </form>
+                                   </ng-template>
+
+                                   <ng-template #opdResults>
+
+
+  
+                                    <table class="table table-striped">
+                                         <thead>
+                                             <tr>
+                                                 <th>Vital</th>
+                                                 <th>Serial Code</th>
+                                                 <th>Results</th>
+                                             </tr>
+                                         </thead>
+                                         <tbody>
+                                              <tr *ngFor="let vital of vitals">
+                                                    <td>{{vital.vital}}</td>
+                                                    <td>{{vital.serial_code}}</td>
+                                                    <td>{{vital.result}}</td>
+                                              </tr>
+                                         </tbody>
+                                      </table>
+                              
+                                      </ng-template>
+
+
+
+                                </div>
+                           </div>
+                      </div>
+                      <div class="col-md-6">
+                           <div class="row">
+                                 <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Laboratory</h5>
+                                        </div>
+                                        <div class="card-body">
+
+                                            <div *ngIf="check_active_case==0;else activeStatus">
+                                                <h3>No laboratory case requested</h3>
+                                            </div>
+                                            <ng-template #activeStatus>
+                                                <!--{{patient_active_lab_case|json}}-->
+        
+                                                <div *ngFor="let active_case of patient_active_lab_case">
+                                                       <div class="">
+                                                           <table class="table table-bordered">
+                                                               <thead>
+                                                                    <tr>
+                                                                        <th>case number</th>
+                                                                        <th>total cost</th>
+                                                                        <th>Amount Paid</th>
+                                                                        
+                                                                        <th>Date Requested</th>
+                                                                    </tr>
+                                                               </thead>
+                                                               <tbody>
+                                                                   <tr>
+                                                                       <td>{{active_case.case_number}}</td>
+                                                                       <td>GHS {{active_case.total_cost}}</td>
+                                                                       <td>GHS {{active_case.total_amount_paid}}</td>
+                                                                       
+                                                                       
+                                                                       <td>{{active_case.date_requested}}</td>
+                                                                   </tr>
+                                                               </tbody>
+                                                           </table>
+                                                       </div>
+                                                       <div *ngIf="active_case.total_amount_paid==0;">
+                                                        <p>amount to paid GHS{{active_case.total_cost}}</p>
+                                                        <!--<p>{{payment_status|json}}</p>-->
+                                                        <div class="msg-box">
+                                                               <div class="bg-success p-2" *ngIf="payment_status=='success';else insufficientPayment">
+                                                                         {{lab_payment_response}}
+                                                               </div>
+                                                               <ng-template #insufficientPayment >
+                                                                      <div class="">
+                                                                        {{lab_payment_response}}
+                                                                      </div>
+                                                                         
+                                                               </ng-template>
+                                                        </div>
+                                                         <form #makelabpayment="ngForm" (ngSubmit)="submitPatientLab(makelabpayment)">
+                                                            <div class="row">
+                                                                  <div class="col-md-12 col-12">
+                                                                        <div class="form-group">
+                                                                            <input type="text" placeholder="enter amount to be paid {{active_case.total_cost}}" class="form-control" name="amount" ngModel>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            
+                                                            <input type="hidden" [(ngModel)]="case_number" name="case_number" ngModel>
+                                                            <input type="submit" value="make lab payment" class="btn btn-success">
+                                                        </form>
+                                                       </div>
+                                                       <div class="">
+                                                        <!--{{active_lab_case_list|json}}-->
+                                                              <table class="table table-striped">
+                                                                   <thead>
+                                                                        <tr>
+                                                                             <th>Lab Test Type</th>
+                                                                             <th>Test Cost</th>
+                                                                        </tr>
+                                                                   </thead>
+                                                                   <tbody>
+                                                                         <tr *ngFor="let lab_case of active_lab_case_list">
+                                                                               <td>{{lab_case.labe_test}}</td>
+                                                                               <td>GHS {{lab_case.cost}}</td>
+                                                                         </tr>
+                                                                   </tbody>
+                                                              </table>
+                                                       </div>
+                                                </div>
+                                            </ng-template>
+                                            
+
+                                        </div>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-12 mt-2 mb-2">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Dietry supplement</h5>
+                                        </div>
+                                        <div class="card-body">
+                                                
+                                        </div>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-12 mt-2 mb-2">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="card-title">OPD History</h5>
+                                        </div>
+                                        <div class="card-body">
+                                             <!--{{patient_history|json}}-->
+                                             <div *ngIf="patient_history.length==0;else opdHistory">
+                                                    <h3>No OPD HISTORY</h3>
+                                             </div>
+                                             <ng-template #opdHistory>
+                                             <div class="table-responsive">
+                                                   <table class="table table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Case Number</th>
+                                                                <th>Checked In</th>
+                                                                <th>Checked Out</th>
+                                                                <th>view</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                              <tr *ngFor="let history of patient_history">
+                                                                   <td>{{history.case_number}}</td>
+                                                                   <td>{{history.date_checked_in}}</td>
+                                                                   <td>{{history.checked_out}}</td>
+                                                                   <td><a [routerLink]="['/patient','patient-opd-history-details',history.case_number]">view</a></td>
+                                                              </tr>
+                                                        </tbody>
+                                                   </table>
+                                             </div>
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                                 </div>
+                           </div>
+                      </div>
+                </div>
+            </div>
+        </section>
+
+    </div><!--end of content rapper-->
+
+    <app-footer></app-footer>
+</div>
+
+
+<!---
+1. check if patient case number is been generated where check-in is true and checkout is False
+2. if case is not true generate a case number and check in patient
+3. if the patient is checked in,
+4. check if the patient  card fees has been paid
+5. if charges has not been paid, display the card fees chard with a text box for payment
+6. if payment is payment is paid display
+7. display all opd vitals information with input boxes
+8. the checkin in patient if patient isn't checked in
+-->
+<!--
+{{case_number}}-->
+
+<!--<div *ngIf="checked_in_status == true;else newCase">
+      <div *ngIf="payment == true;else cardPayment">
+        <div *ngIf="opd_vitals_state==false;else opdResults">
+            <div *ngIf="opd_vitals_state == false;">
+
+                <form (ngSubmit)="submitVitals()" [formGroup]="opd_vital_forms">
+                     
+                    <div>
+                           <select multiple formControlName="vital_list" >
+                                 <option *ngFor="let vital of vitals;" value="{{vital.serial_code}}">{{vital.vitals}}</option>
+                          </select>
+                    </div>
+                    <div formArrayName="vitals_result">
+                        <ng-container *ngFor="let labinput of opd_vital_forms.get('vitals_result')['controls'];index as i" formGroupName="{{i}}">
+                            {{opd_vital_forms.value.vitals_result[i].vital_name}}
+                            
+                            <input type="hidden" placeholder="vital_serial_code" name="vital_serial_code" formControlName="vital_serial_code">
+                            <input type="text" placeholder="result" name="result" formControlName="result"><br>
+                        </ng-container>
+                        
+                    
+        
+                    </div>
+                    <input type="hidden" formControlName="case_number" name="case_number"><br>
+                    <input type="submit" value="send opd vitals">
+        
+                </form>
+            </div>
+
+        </div>
+      
+
+      </div>
+</div>
+
+<ng-template #newCase>
+      <h3>Generate new Case</h3>
+      <form (ngSubmit)="generateNewCase(newcase)" #newcase="ngForm">
+          <input type="hidden" name="card_number" [(ngModel)]="card_number" ngModel><br>
+          <button type="submit" style="border:none;padding:10px">generate new case</button>
+      </form>
+</ng-template>
+
+<ng-template #cardPayment>
+    <form [formGroup]="payment_forms" (ngSubmit)="makePayment()">
+        <p>{{response|json}}</p>
+        <p>card charge{{card_charge}}</p>
+        <input type="text" formControlName="amount" placeholder="GHS {{amountTobePaid}}"><br/>
+        <input type="text" formControlName="case_number" [value]="case_number" ><br>
+        <input type="submit" value="make payments">
+  </form>
+</ng-template>
+
+<ng-template #opdResults>
+
+
+  
+      <table>
+           <thead>
+               <tr>
+                   <th>Vital</th>
+                   <th>Serial Code</th>
+                   <th>Results</th>
+               </tr>
+           </thead>
+           <tbody>
+                <tr *ngFor="let vital of vitals">
+                      <td>{{vital.vital}}</td>
+                      <td>{{vital.serial_code}}</td>
+                      <td>{{vital.result}}</td>
+                </tr>
+           </tbody>
+        </table>
+
+</ng-template>
+fkfkkf
+{{opd_vitals_state }}
+
+
+<table>
+     <thead>
+         <tr>
+             <th>Attendance History</th>
+         </tr>
+         
+     </thead>
+     <tbody>
+          <tr></tr>
+     </tbody>
+</table>
+
+<div class="active_lab_case">
+    
+    <div *ngIf="check_active_case==0;else activeStatus">
+           <h3>No loboratory active case</h3>
+    </div>
+    <ng-template #activeStatus>
+
+        {{patient_active_lab_case|json}}
+        
+            <div *ngFor="let active_case of patient_active_lab_case">
+                   <div class="">
+                       <table>
+                           <thead>
+                                <tr>
+                                    <th>case number</th>
+                                    <th>total cost</th>
+                                    <th>Tota Amount Paid</th>
+                                    <th>Date Released</th>
+                                    <th>Date Requested</th>
+                                </tr>
+                           </thead>
+                           <tbody>
+                               <tr>
+                                   <td>{{active_case.case_number}}</td>
+                                   <td>GHS {{active_case.total_cost}}</td>
+                                   <td>{{active_case.total_amount_paid}}</td>
+                                   
+                                   <td>{{active_case.date_released}}</td>
+                                   <td>{{active_case.date_requested}}</td>
+                               </tr>
+                           </tbody>
+                       </table>
+                   </div>
+                   <div *ngIf="active_case.total_amount_paid==0;">
+                    <p>amount to pe paid GHS{{active_case.total_cost}}</p>
+                    <p>{{payment_status|json}}</p>
+                     <form #makelabpayment="ngForm" (ngSubmit)="submitPatientLab(makelabpayment)">
+                        <input type="text" name="amount" ngModel><br>
+                        <input type text [(ngModel)]="case_number" name="case_number" ngModel><br>
+                        <input type="submit" value="make payment">
+                    </form>
+                   </div>
+                   <div class="">
+                    {{active_lab_case_list|json}}
+                          <table>
+                               <thead>
+                                    <tr>
+                                         <th>Lab Test Type</th>
+                                         <th>Test Cost</th>
+                                    </tr>
+                               </thead>
+                               <tbody>
+                                     <tr *ngFor="let lab_case of active_lab_case_list">
+                                           <td>{{lab_case.labe_test}}</td>
+                                           <td>GHS {{lab_case.cost}}</td>
+                                     </tr>
+                               </tbody>
+                          </table>
+                   </div>
+            </div>
+       
+
+    </ng-template>
+-->
+
+<!--what left to be done  dietary supplement and opd  history-->
+
+

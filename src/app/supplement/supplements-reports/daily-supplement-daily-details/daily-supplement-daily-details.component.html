@@ -1,0 +1,84 @@
+<div class="wrapper">
+    <app-topnavbar></app-topnavbar>
+    <app-supplement-sidebar></app-supplement-sidebar>
+    <div class="content-wrapper">
+
+      <div class="content-header">
+            <div class="container-fluid">
+                   <div class="row mb-2">
+                        <div class="col-sm-6">
+                               <h1 class="m-0">General Supplements Report</h1>
+                        </div><!-- /.col -->
+                        <div class="col-sm-6">
+                               <ol class="breadcrumb float-sm-right">
+                                   <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                   <li class="breadcrumb-item active">supplement</li>
+                               </ol>
+                        </div><!-- /.col -->
+                   </div><!-- /.row -->
+             </div><!-- /.container-fluid -->
+       </div>
+       <section class="content">
+            <div class="container-fluid">
+                   <div class="row">
+                         <div class="col-md-4">
+                              <div class="card">
+                                    <div class="card-header">
+                                          <h5 class="card-title">Summerised Report</h5>
+                                    </div>
+                                    <div class="card-body">
+                                          <!--{{supplements_details|json}}-->
+                                          <h5><b>Supplement Name</b> :{{supplement_name|uppercase}}</h5>
+                                          <h5><b>Serial Code</b>: {{serial_codes}}</h5>
+                                          <h5><b>Cost/unit</b>: GHS {{cost}}</h5>
+                                          <h5><b>Quantity In Stock</b>:{{quantity}}</h5>
+                                          <h5><b>Quantity Sold</b>:{{total_quantity}}</h5>
+                                          <h5><b>Total Sales</b>: GHS {{total_sales}}</h5>
+                                          <h5><b>Sales Date</b>: {{sales_date}}</h5>
+                                    </div>
+                              </div>
+                         </div>
+                         <div class="col-md-8">
+                                <div class="card">
+                                      <div class="card-header">
+                                            <h5 class="card-title">Supplement Sales Details</h5>
+                                      </div>
+                                      <div class="card-body">
+                                          <!--{{supplements_reports|json}}-->
+                                          <table class="table table-bordered">
+                                                     <thead>
+                                                            <tr>
+                                                                  <th>Quantity Sold</th>
+                                                                  <th>Cost per Quantity</th>
+                                                                  <th>Total Cost</th>
+                                                                
+                                                            </tr>
+                                                     </thead>
+                                                     <tbody>
+                                                         <tr *ngFor="let details of supplements_reports">
+                                                              <td>{{details.reports.quantity}}</td>
+                                                              <td>{{details.reports.cost_per_price}}</td>
+                                                              <td>{{details.reports.total_cost}}</td>
+                                                         </tr>
+                                                     </tbody>
+                                                     <tfoot>
+                                                          <tr>
+                                                              <th>Total Qunaity Sold</th>
+                                                              <td></td>
+                                                              <th>Grand Total Cost</th>
+                                                          </tr>
+                                                          <tr>
+                                                              <td>{{total_quantity}}</td>
+                                                              <td></td>
+                                                              <td>GHS {{total_sales}}</td>
+                                                          </tr>
+                                                     </tfoot>
+                                          </table>
+                                      </div>
+                                </div>
+                         </div>
+                   </div>
+            </div>
+       </section>
+    </div>
+</div>
