@@ -45,7 +45,7 @@ export class ProductSalesComponent {
             
            // console.log(this.supplemenet_arr,'add on')
       }
-      purchaseForms=()=>this.purchas_forms=new FormGroup({telephone:new FormControl(),purchares_items:new FormArray([new FormGroup({serial_code:new FormControl(),quantity:new FormControl(),cost:new FormControl(),supplement:new FormControl()})])})
+      purchaseForms=()=>this.purchas_forms=new FormGroup({telephone:new FormControl(),discount_rate:new FormControl(0),purchares_items:new FormArray([new FormGroup({serial_code:new FormControl(),quantity:new FormControl(),cost:new FormControl(),supplement:new FormControl()})])})
       removeSupplemnt=(index:any)=>this.supplemenet_arr.splice(index)
 
 
@@ -109,7 +109,7 @@ export class ProductSalesComponent {
                   quantity.push(parseInt(this.purchas_forms.value.purchares_items[index].quantity))
                   console.log(this.purchas_forms.value.purchares_items[index],' hello')
           }
-          let body={'telephone':this.purchas_forms.value.telephone,'serial_code':supplement,'quantity':quantity}
+          let body={'telephone':this.purchas_forms.value.telephone,'serial_code':supplement,'quantity':quantity,'discount_rate':this.purchas_forms.value.discount_rate}
           this.api.customerSaleInventory(body).subscribe(data=>console.log(data))
          // console.log(body,'hi')
             

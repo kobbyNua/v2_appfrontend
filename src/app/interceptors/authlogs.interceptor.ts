@@ -13,7 +13,7 @@ export class AuthlogsInterceptor implements HttpInterceptor {
   constructor() {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    debugger
+    
     const token=localStorage.getItem('token')
      const new_request=request.clone({setHeaders:{Authorization:'Token '+token+''}})
     return next.handle(new_request);

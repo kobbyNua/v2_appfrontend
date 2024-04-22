@@ -22,7 +22,7 @@ export class LoginComponent {
         this.login_forms=new FormGroup({username:new FormControl(),password:new FormControl()})
     }
     authUser=(body:FormGroupDirective)=>{
-           debugger
+           //debugger
             this.api.login(body.value).subscribe(data=>{
                 if(data.status=="success"){
                    localStorage.setItem('token',data.token)

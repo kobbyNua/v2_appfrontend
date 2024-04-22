@@ -49,6 +49,10 @@
                                                                                             <input type="text" formControlName="telephone" placeholder="enter customer telephone number" style="width:100%;border:1px solid #ddd" class="form-control">
                                                                                             <!--{{purchas_forms.value|json}}-->
                                                                                      </div>
+                                                                                     <div class="form-group">
+                                                                                           <label>Discount</label>
+                                                                                           <input type="number" formControlName="discount_rate" class="form-control" >
+                                                                                     </div>
                                                                                </div>
                                                                               <div class="col-md-12">
                                                                                     <div formArrayName="purchares_items">
@@ -77,7 +81,7 @@
 
                                                                                                                 <tr *ngFor="let items_list of purchas_forms.get('purchares_items')['controls'];index as i" formGroupName="{{i}}">
                                                                                                                        <td>{{purchas_forms.value.purchares_items[i].supplement}}</td>
-                                                                                                                       <td><input type="text"  formControlName="quantity"  (change)="priceUpdate(i)" ><input type="hidden" formControlName="serial_code"></td>
+                                                                                                                       <td><input type="text"  formControlName="quantity"  (input)="priceUpdate(i)" ><input type="hidden" formControlName="serial_code"></td>
                                                                                                                        <td>{{purchas_forms.value.purchares_items[i].cost}}</td>
                                                                                                                        <td>{{purchas_forms.value.purchares_items[i].cost * purchas_forms.value.purchares_items[i].quantity}}</td>
                                                                                                                        <td><button class="btn btn-danger" (click)="removeSupplement(i)">remmove</button></td>
@@ -92,13 +96,18 @@
                                                                                                            </tbody>
                                                                                                            <tfoot>
                                                                                                                 <tr>
+                                                                                                                       <td>Actual Cost</td>
                                                                                                                        <td>GHS {{total_cost}}</td>
                                                                                                                        
+                                                                                                                       <td>Discount Cost</td>
+
+                                                                                                                       <td>{{total_cost*(100-purchas_forms.value.discount_rate)/100}}</td> 
+                                                                                                                </tr>
+                                                                                                                <tr>
                                                                                                                        <td colspan="2"><input type="text" class="form-control" style="border:1px solid #333;width:65%" placeholder="confirm payment"></td>
                                                                                                                        <td></td>
                                                                                                                        
                                                                                                                        <td><button class="btn btn-info" colspan="2">make payment</button></td>
-                                                                                                                       <td></td> 
                                                                                                                 </tr>
                                                                                                            </tfoot>
 
