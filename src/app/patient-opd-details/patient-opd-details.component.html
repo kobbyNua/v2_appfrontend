@@ -218,9 +218,33 @@
                                                                    </tr>
                                                                </tbody>
                                                            </table>
+                                                           <table class="table table-bordered">
+                                                            <thead>
+                                                                 <tr>
+                                                                     <th>Discount Rate</th>
+                                                                     
+                                                                     <th>Discount Amount</th>
+                                                                     
+                                                                 
+                                                                 </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>{{active_case.discount_rate}}%</td>
+                                                                
+                                                                    <td>GHS {{active_case.discount_amount}}</td>
+                                                                    
+                                                                    
+                                                                  
+                                                                </tr>
+                                                            </tbody>
+                                                            </table>
                                                        </div>
                                                        <div *ngIf="active_case.total_amount_paid==0;">
-                                                        <p>amount to paid GHS{{active_case.total_cost}}</p>
+                                                        <p *ngIf="active_case.discount_rate == 0;else discount_count">amount to paid GHS{{active_case.total_cost}}</p>
+                                                        <ng-template #discount_count>
+                                                                 amount to be paid GHS {{active_case.discount_amount}}
+                                                        </ng-template>
                                                         <!--<p>{{payment_status|json}}</p>-->
                                                         <div class="msg-box">
                                                                <div class="bg-success p-2" *ngIf="payment_status=='success';else insufficientPayment">

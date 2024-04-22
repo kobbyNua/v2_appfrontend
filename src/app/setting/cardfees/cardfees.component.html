@@ -1,0 +1,180 @@
+<div class="wrapper">
+        <app-topnavbar></app-topnavbar>
+        <app-srttingsidebar></app-srttingsidebar>
+
+        <div class="content-wrapper">
+            <div class="content-header">
+                  <div class="container-fluid">
+                        <div class="row mb-2">
+                                <div class="col-sm-6">
+                                       <h1 class="m-0">Card Fees Charge</h1>
+                                </div><!-- /.col -->
+                                <div class="col-sm-6">
+                                     <ol class="breadcrumb float-sm-right">
+                                           <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                           <li class="breadcrumb-item active">card fees</li>
+                                     </ol>
+                                </div><!-- /.col -->
+                        </div><!-- /.row -->
+                   </div><!-- /.container-fluid -->
+            </div>
+            <section class="content">
+                <div class="container-fluid">
+
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                              <div class="card card-primary card-tabs">
+                                    <div class="card-header p-0 pt-1">
+                                          <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+    
+    
+                                                    <li class="nav-item">
+                                                      <a class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill" href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home" aria-selected="true">card fees Set Up</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                      <a class="nav-link" id="custom-tabs-three-profile-tab" data-toggle="pill" href="#custom-tabs-three-profile" role="tab" aria-controls="custom-tabs-three-profile" aria-selected="false">Card Fees logs</a>
+                                                    </li>
+    
+    
+                                          </ul>
+                                    </div>
+
+                                    <div class="card-body">
+                                             <div class="tab-content" id="custom-tabs-three-tabContent">
+                                             
+                                                <div class="tab-pane fade show active" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
+                                                    <form [formGroup]="cards_fees" (ngSubmit)="CreateCardFees(cardfees)" #cardfees="ngForm">
+                                                        <div class="msg-box">
+                                                            <div class="" *ngIf="card_response=='success'; else errorsMsg">
+                                                                    <div class="bg-success p-2">
+                                                                        {{card_response}}
+                                                                    </div>
+                                                            </div>
+                                                            <ng-template #errorsMsg class="bg-danger p-2">
+                                                                    
+                                                                          {{card_response}}
+                                                                    
+                                                            </ng-template>
+                                                      </div>
+                                                          <div class="form-group">
+                                                            <input type="text" class="form-control" placeholder="enter  card fees" formControlName="card_fees">
+                                                          </div>
+                                                          <div class="form-group">
+                                                            <input type="text" class="form-control" placeholder="enter card renewal fees" formControlName="renewal_card_fees">
+                                                          </div>
+                                                          <div class="form-group">
+                                                              <button type="submit" class="btn btn-info">save</button>
+                                                          </div>
+
+                                                    </form>
+
+                                                    <div class="table-responsive">
+                                                        
+                                                         <table class="table table-bordered">
+                                                               <thead>
+                                                                      <tr>
+                                                                          <th>New Card Charge</th>
+                                                                          <th>Card Review Fees</th>
+                                                                      </tr>
+                                                               </thead>
+                                                               <tbody>
+                                                                <tr>
+                                                                    <td>{{card_fee_list.card_charge.fees}}</td>
+                                                                    <td>{{card_fee_list.card_renewal_fees.fees}}</td>
+                                                                </tr>
+                                                          </tbody>
+                                                         </table>
+
+                                                    </div>
+                                                </div>
+                                                 <div class="tab-pane fade" id="custom-tabs-three-profile" role="tabpanel" aria-labelledby="custom-tabs-three-profile-tab">
+                                                    <div class="row">
+                                                     <div class="col-md-6 col-6">
+
+                                                            <div class="table-responsive">
+                                                                     <table class="table table-bordered">
+                                                                          <thead>
+                                                                               <tr>
+                                                                                  <th colspan="3" class="text-center">Card Registration Fees Logs</th>
+                                                                                  
+                                                                               </tr>
+                                                                               <tr>
+                                                                                   <th>Date Created</th>
+                                                                                   <th>Amount</th>
+                                                                                   <th>Created By</th>
+                                                                               </tr>
+                                                                          </thead>
+                                                                          <tbody>
+                                                                            
+                                                                        
+                                                                        <tr *ngFor="let fee of card_fees_logs">
+                                                                             <td>{{fee.date_charged}}</td>
+                                                                             <td>{{fee.amount}}</td>
+                                                                              <td>{{fee.added_by}}</td>
+                                                                        </tr>
+                                                                        </tbody>
+                                                                     </table>
+                                                            </div>
+                                                     </div>
+
+                                                     <div class="col-md-6 col-6">
+                                                            <div class="table-responsive">
+                                                                   <table class="table table-bordered">
+
+                                                                    <thead>
+                                                                        <tr>
+                                                                           <th colspan="3" class="text-center">Card Remewal Fees Logs</th>
+                                                                          
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Date Created</th>
+                                                                            <th>Amount</th>
+                                                                            <th>Created By</th>
+                                                                        </tr>
+                                                                   </thead>
+                                                                   <tbody>
+                                                                       
+                                                                        <tr *ngFor="let fee of card_fees_renewal_logs">
+                                                                              <td>{{fee.date_charged}}</td>
+                                                                              <td>{{fee.amount}}</td>
+                                                                              <td>{{fee.added_by}}</td>
+                                                                        </tr>
+                                                                   </tbody>
+
+                                                                   </table>
+                                                            </div>
+                                                     </div>
+
+                                                    </div>
+                                                 </div>
+                                             </div>
+
+                                    </div>
+
+
+                              </div>
+
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+                </div>
+            
+            </section>
+
+
+
+        </div>
+
+
+
+
+</div>

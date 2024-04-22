@@ -103,12 +103,12 @@ export class PatientMedicCareComponent {
  submitLab=(lab_forms:FormGroupDirective)=>{
    //console.log('alright ',this.lab_form_group,);
    //console.log(lab_forms)
-   let data_serial_code=[]
+  let data_serial_code=[]
    for(let index =0;index<lab_forms.value.test_detail_form.length;index++){
            data_serial_code.push(lab_forms.value.test_detail_form[index].serial_code)
    }
 
-   let body={'case_number':lab_forms.value.case_number,'serial_code':data_serial_code,'in_house_lab_status':lab_forms.value.lab_test_request_status}
+   let body={'case_number':lab_forms.value.case_number,'serial_code':data_serial_code,'discount_rate':lab_forms.value.discount_rate,'in_house_lab_status':lab_forms.value.lab_test_request_status}
    //console.log(body)
    if(lab_forms.submitted){
           if(lab_forms.valid){
@@ -125,6 +125,7 @@ export class PatientMedicCareComponent {
             })
           }
    }
+   console.log(lab_forms.value)
    
    //if(this.lab_form_group.valid)
    // console.log(this.lab_form_group,'hit')
@@ -134,6 +135,7 @@ export class PatientMedicCareComponent {
           this.lab_form_group=new FormGroup({
            case_number:new FormControl(),
            lab_test_request_status:new FormControl(),
+           discount_rate:new FormControl(0),
            test_detail_form:new FormArray([
              new FormGroup({
                   test_type:new FormControl(),
@@ -161,6 +163,8 @@ export class PatientMedicCareComponent {
  dietary_supplemnt_forms=()=>{
          this.supplement_forms=new FormGroup({
                case_numbers:new FormControl(),
+               discount_rate:new FormControl(0),
+               cost_per_price:new FormControl(),
                dietary_forms:new FormArray([
                      new FormGroup({
                            supplement:new FormControl(),
@@ -179,7 +183,8 @@ export class PatientMedicCareComponent {
                console.log(data[index].supplement)
                this.supplement_forms.controls['dietary_forms'].push(new FormGroup({
                  supplement:new FormControl(data[index].supplement),
-                 serial_code:new FormControl(data[index].serial_code)
+                 serial_code:new FormControl(data[index].serial_code),
+                 cost_per_price:new FormControl(data[index].cost_per_price)
                }))
            }
          })
@@ -193,7 +198,7 @@ export class PatientMedicCareComponent {
               dietary_serial_code.push(dietaryForm.value.dietary_forms[index].serial_code)
        }
        //console.log(dietary_serial_code)
-       let body={'case_number':dietaryForm.value.case_numbers,'serial_code':dietary_serial_code}
+       let body={'case_number':dietaryForm.value.case_numbers,'discount_rate':dietaryForm.value.discount_rate,'serial_code':dietary_serial_code}
        //console.log(body)
        this.api.submitDietaryRequest(body).subscribe(data=>{
              this.supplement_status=data.status;
@@ -203,6 +208,7 @@ export class PatientMedicCareComponent {
               window.location.href=this.router.url;
              }
        })
+       //console.log(dietaryForm.value)
  }
 
  checkEmptySupplementForms=()=>{

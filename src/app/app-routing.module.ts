@@ -32,6 +32,7 @@ import { SupplementsReportsComponent } from './supplement/supplements-reports/su
 import { DailySupplementDailyDetailsComponent } from './supplement/supplements-reports/daily-supplement-daily-details/daily-supplement-daily-details.component';
 import { MedicalDiagnosisHistoryComponent } from './doctor/medical-diagnosis-history/medical-diagnosis-history.component';
 import { PatientOpdDetailsHistoryComponent } from './patient/patient-opd-details-history/patient-opd-details-history.component';
+import { CardfeesComponent } from './setting/cardfees/cardfees.component';
 import {LoginComponent} from './login/login.component';
 
 const routes: Routes = [
@@ -46,6 +47,7 @@ const routes: Routes = [
   {path:'groups',component:GroupsComponent},
   {path:'opd-vitals',component:OpdVitalsComponent},
   {path:'region',component:RegionComponent},
+  {path:'cardfees',component:CardfeesComponent},
   {path:'hospital',component:HospitalComponent},
   {path:'patient-opd',component:PatientComponent},
   {path:'patient-opd-details/:card_number',component:PatientOpdDetailsComponent},

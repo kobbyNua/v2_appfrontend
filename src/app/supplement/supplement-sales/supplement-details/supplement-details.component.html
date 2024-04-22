@@ -62,6 +62,34 @@
                                      </div>
                                </div>
                                <div class="col-md-4 col-12">
+                                    <div class="card">
+                                          <div class="card-header">
+                                                <h5 class="card-title">Dietary Supplement profile</h5>
+                                          </div>
+                                          <div class="card-body">
+                                           
+                                                  <div class="text-center">
+                                                         <img class="image-circle" alt="{{dietary_profile.supplement}}" src="http://127.0.0.1:8000/{{dietary_profile.photo}}">
+                                                  </div>
+                                                  <h3 class="profile-username text-center">{{dietary_profile.supplement}}</h3>
+
+
+
+                                                  <ul class="list-group list-group-unbordered mb-3">
+                                                      <li class="list-group-item">
+                                                        <b>Serial Code</b> <a class="float-right">{{dietary_profile.serial_code}}</a>
+                                                      </li>
+                                                      <li class="list-group-item">
+                                                        <b>Current Price</b> <a class="float-right">GHS {{dietary_profile.price}}</a>
+                                                      </li>
+                                                      <li class="list-group-item">
+                                                            <b>Quantity In Stock</b> <a class="float-right">{{dietary_profile.quantity}}</a>
+                                                      </li>
+                                                  </ul>
+
+
+                                          </div>
+                                    </div>
                                        <div class="card">
                                               <div class="card-header">
                                                     <h5 class="card-title">Update Supplement Stock</h5>

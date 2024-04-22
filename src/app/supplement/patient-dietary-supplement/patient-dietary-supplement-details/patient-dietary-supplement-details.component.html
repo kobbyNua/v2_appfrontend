@@ -21,7 +21,7 @@
               <div class="container-fluid">
 
 
-                <!--{{patient_dietary_list|json}}-->
+                {{patient_dietary_list|json}}
 
                 <p>{{payment_status}}</p>
                
@@ -32,7 +32,25 @@
                                   <div class="card-header">
                                         <h5 class="card-title">Profile</h5>
                                   </div>
-                                  <div class="card-body"></div>
+                                  <div class="card-body">
+                                      
+                                       <div class="text-center">
+                                          <i class="fa fa-user-circle fa-5x"></i>
+                                          <!--<img class="profile-user-img img-fluid img-circle"
+                                               src="/node_modules/admin-lte/dist/img/user4-128x128.jpg"
+                                               alt="User profile picture">-->
+                                       </div>
+                                       <h3 class="profile-username text-center">{{patient_dietary_list.patient_dietory_records[0].patient}}</h3>
+                                       <ul class="list-group list-group-unbordered mb-3">
+                                          <li class="list-group-item">
+                                            <b>Card Number</b> <a class="float-right">{{patient_dietary_list.patient_dietory_records[0].card_number}}</a>
+                                          </li>
+                                          <li class="list-group-item">
+                                            <b>Case Number</b> <a class="float-right">{{patient_dietary_list.patient_dietory_records[0].case_number}}</a>
+                                          </li>
+                                      </ul>
+
+                                  </div>
                             </div>
                       </div>
                       <div class="col-md-8 col-12">
@@ -89,17 +107,38 @@
                                             </tbody>
                                             <tfoot>
                                                  <tr>
-                                                    <td style="width:40%">
+                                                      <th>Actual Cost </th>
+                                                      <th colspan="2">Discount Cost </th>
+                                                      <th>Rate</th>
+                                                      <th></th>
+                                                 </tr>
+                                                 <tr>
+                                                    <td>
                                                         GHS  {{total_cost}}
                                                         
+                                                        
                                                     </td>
-                                                    <td style="width:30%">
-                                                        <input type="text" formControlName="amount" class="form-control" placeholder="enter amount">
-                                                        <input type="hidden" formControlName="case_number">
+                                                    <td colspan="2">
+                                                      GHS {{discount_cost}}
                                                     </td>
-                                                    <td style="width:30%">
-                                                        <button type="submit" class="btn btn-info" style="width:100%">make payment</button>
+                                                    <td>
+                                                       {{discount_rate}}%
                                                     </td>
+                                                    <td></td>
+
+                                                 </tr>
+                                                 <tr>
+                                                       
+                                                      <td colspan="3">
+                                                            <input type="text" formControlName="amount" class="form-control" placeholder="enter amount to be paid GHS {{discount_cost}}">
+                                                            <input type="hidden" formControlName="case_number">
+                                                        </td>
+                                                        <td>
+                                                            <button type="submit" class="btn btn-info" style="width:100%">make payment</button>
+                                                        </td>
+                                                        <td></td>
+                                                        <td></td>
+
                                                  </tr>
                                                 
                                                 

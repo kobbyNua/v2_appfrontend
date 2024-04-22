@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { SettingsService } from 'src/app/services/settings.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute,Router } from '@angular/router';
 import { FormGroup,FormArray,FormControl,NgForm } from '@angular/forms';
+
+
 
 @Component({
   selector: 'app-usermanagement',
@@ -12,8 +14,9 @@ export class UsermanagementComponent {
      groups:any;
      staffs:any;
      staff_forms:any;
+     response:any;
 
-     constructor(private api:SettingsService){
+     constructor(private api:SettingsService,private router:Router){
        this.viewStaff()
        this.createStaffForms()
        this.viewGroups()
@@ -45,6 +48,15 @@ export class UsermanagementComponent {
   
      createStaff=()=>{
         //console.log(this.staff_forms.value)
-        this.api.createStaff(this.staff_forms.value).subscribe(data=>{console.log(data)},error=>{console.log(error)})
+        this.api.createStaff(this.staff_forms.value).subscribe(data=>{
+            
+          if(data.status == 'success'){
+            this.response=data.success;
+            window.location.href=this.router.url;
+          }
+          else if(data.status == 'error'){
+             this.response=data.error;
+          } 
+        })
      }
 }

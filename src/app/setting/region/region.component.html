@@ -32,12 +32,16 @@
 
 
                                         
-                                        <table class="table table-striped">
-                                            <tr>
-                                                <th>Regions</th>
-                                                <th>Edit Regions</th>
-                                                
-                                            </tr>
+                                        <table  class="table table-bordered">
+                                            <thead>
+
+                                                <tr>
+                                                    <th>Regions</th>
+                                                    <th>Edit Regions</th>
+                                                    
+                                                </tr>
+                                            </thead>
+
                                             <tr *ngFor="let region of regions">
                                                 <td>{{region.region}}</td>
                                                 <td><a routerLink="#">Edit</a></td>
@@ -57,10 +61,23 @@
                                     
 
                                     <form [formGroup]="region_forms" (ngSubmit)="createNewRegions()">
-                                        {{response}}
+                                        
+                                        <div class="msg-box">
+                                            <div class="" *ngIf="region_response=='success'; else errorsMsg">
+                                                    <div class="bg-success p-2">
+                                                        {{region_response}}
+                                                    </div>
+                                            </div>
+                                            <ng-template #errorsMsg class="bg-danger p-2">
+                                                    
+                                                          {{region_response}}
+                                                    
+                                            </ng-template>
+                                      </div>
+
                                            <div class="form-group">
                                                <label for="region">Region</label>
-                                               <input type="text" pattern="[A-Za-z]" class="form-control" placeholder="region" formControlName="region">
+                                               <input type="text"  class="form-control" placeholder="region" formControlName="region">
                                                <div class="error-message" *ngIf="region_forms.controls.region.invalid && region_forms.controls.region.touched">
                                                      <span class="err-mssage">Region field empty</span>
                                                </div>
@@ -68,7 +85,7 @@
                                            </div>
                                            
                                            
-                                           <button type="submit" [disabled]="region_forms.invalid">create new region</button>
+                                           <button type="submit" class="btn btn-info" [disabled]="region_forms.invalid">create new region</button>
                                     </form>
                                 </div>
                           </div>

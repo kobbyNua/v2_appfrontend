@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { SettingsService } from 'src/app/services/settings.service';
 import {FormGroup,FormControl,FormArray,Validators} from '@angular/forms';
+import { ActivatedRoute,Router } from '@angular/router';
 
 @Component({
   selector: 'app-opd-vitals',
@@ -13,7 +14,7 @@ export class OpdVitalsComponent {
   response:any;
   opd_vitals:any
 
-  constructor(private api:SettingsService){
+  constructor(private api:SettingsService,private router:Router){
      this.viewOPDDetails()
      this.OPDVitalsForms()
   }
@@ -24,7 +25,18 @@ export class OpdVitalsComponent {
 
   createOPDVital=()=>{
        //console.log(this.opd_forms)
-       this.api.createOPDVitals(this.opd_forms.value).subscribe(data=>{this.response=data})
+       this.api.createOPDVitals(this.opd_forms.value).subscribe(data=>{
+
+        if(data.status == 'success'){
+          this.response=data.success;
+          window.location.href=this.router.url;
+        }
+        else if(data.status == 'error'){
+           this.response=data.error;
+        } 
+        //this.response=data
+      
+      })
   }
 
   OPDVitalsForms=()=>{

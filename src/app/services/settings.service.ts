@@ -68,7 +68,6 @@ export class SettingsService {
   createRegion=(regions:any):Observable<any>=>{
     console.log(regions)
     const body={region:regions.region}
-    console.log(body,'over here')
     return  this.http.post(this.base_url+'create-region/',body,{headers:this.headers})
  }
 
@@ -84,6 +83,13 @@ export class SettingsService {
   getSuperUsers=()=>{
     return this.http.get(this.base_url+'all-super-user/',{headers:this.headers})
  }
+
+   createCardCharges=(body:any):Observable<any>=>this.http.post(this.base_url+'card-fees-charge-setup/',body,{headers:this.headers})
+
+   viewCardCharges=()=>this.http.get(this.base_url+'hospital-card-charges/',{headers:this.headers});
+
+   viewCardChargesLogs=():Observable<any>=>this.http.get(this.base_url+'card-charges-logs/',{headers:this.headers})
+
 
 
 }

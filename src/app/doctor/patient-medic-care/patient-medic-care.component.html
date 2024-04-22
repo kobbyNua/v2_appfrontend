@@ -130,7 +130,9 @@
                                                                          <input type="hidden" formControlName="lab_test_request_status">
                                                                      </div>
                                            
-                                                                     
+                                                                     <div class="form-group">
+                                                                         <input type="number" placeholder="enter discount rate" max="100" min="0" formControlName="discount_rate" class="form-control">
+                                                                     </div>
                                                                        <div formArrayName="test_detail_form">
                                                                              <table class="table table-striped">
                                                                                 <thead>
@@ -294,6 +296,7 @@
                                                      <div class="form-group">
 
                                                             <select class="form-control" (change)="getSupplementValue($event)">
+                                                                 <option>select supplements</option>
                                                                  <option *ngFor="let supplement of supplement_list" value="{{supplement.serial_code}}">{{supplement.supplement}}</option>
                                                            </select>
 
@@ -303,12 +306,16 @@
                                                            <div *ngif="supplement_status" class="bg-success">
                                                                   <p>{{supplement_request}}</p>
                                                            </div>
+                                                           <div class="form-group">
+                                                                <input type="number" class="form-control" formControlName="discount_rate">
+                                                           </div>
                                                            <input type="hidden" formControlName="case_numbers">
                                                            <div formArrayName="dietary_forms">
                                                                   <table class="table table-striped">
 
                                                                         <tr *ngFor="let dietary_list of supplement_forms.get('dietary_forms')['controls'];index as i" formGroupName="{{i}}">
                                                                            <td>{{supplement_forms.value.dietary_forms[i].supplement}}</td>
+                                                                           <td>GHS {{supplement_forms.value.dietary_forms[i].cost_per_price}}</td>
                                                                            <td>
 
                                                                                 <input type="hidden" formControlName="serial_code">  

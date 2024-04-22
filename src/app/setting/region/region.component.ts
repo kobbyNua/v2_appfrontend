@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { SettingsService } from 'src/app/services/settings.service';
 import {FormGroup,FormControl,FormArray,Validators} from '@angular/forms';
+import DataTables from 'datatables.net';
+import { ActivatedRoute,Router } from '@angular/router';
 @Component({
   selector: 'app-region',
   templateUrl: './region.component.html',
@@ -11,7 +13,9 @@ export class RegionComponent {
   regions:any;
   response:any;
   region_forms:any;
-  constructor(private api:SettingsService){
+  region_response:any;
+ 
+  constructor(private api:SettingsService,private router:Router){
      this.viewAllRegions()
      this.regionForms()
   }
@@ -30,7 +34,15 @@ regionForms=()=>{
 createNewRegions=()=>{
   console.log(this.region_forms)
   console.log(this.region_forms.controls.region.invalid)
-  //this.api.createRegion(this.region_forms.value).subscribe(data=>{console.log(data)},error=>{console.warn(error)})
+  this.api.createRegion(this.region_forms.value).subscribe(data=>{
+    if(data.status == 'success'){
+      this.region_response=data.success;
+      window.location.href=this.router.url;
+    }
+    else if(data.status == 'error'){
+       this.region_response=data.error;
+    } 
+  })
   //console.log(regionsForm)
 }
 

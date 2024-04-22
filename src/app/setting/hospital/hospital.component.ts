@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { SettingsService } from 'src/app/services/settings.service';
-import {FormControl,FormGroup,FormArray,Validators} from "@angular/forms"
+import {FormControl,FormGroup,FormArray,Validators} from "@angular/forms";
+import { ActivatedRoute,Router } from '@angular/router';
 @Component({
   selector: 'app-hospital',
   templateUrl: './hospital.component.html',
@@ -13,8 +14,9 @@ export class HospitalComponent {
   response:any;
   regions:any
   superusers:any
+  hospital_response:any;
 
-   constructor(private api:SettingsService){
+   constructor(private api:SettingsService,private router:Router){
       this.viewAllRegions()
       this.hospitalForms()
       this.viewHospitalDetails()
@@ -40,8 +42,17 @@ export class HospitalComponent {
        })
     }
     createHospitalDetails=()=>{
-       console.log(this.hospital_forms)
-       //this.api.createHospitalDetails(this.hospital_forms.value).subscribe(data=>{this.response=data})
+       //console.log(this.hospital_forms)
+       this.api.createHospitalDetails(this.hospital_forms.value).subscribe(data=>{
+        if(data.status == 'success'){
+          this.hospital_response=data.success;
+          window.location.href=this.router.url;
+        }
+        else if(data.status == 'error'){
+           this.hospital_response=data.error;
+        } 
+        console.log(data)
+      })
     }
     getHospitalDetails=()=>{
      
@@ -56,7 +67,7 @@ export class HospitalComponent {
      
  }
  getSuperUser=()=>{
-   this.api.getSuperUsers().subscribe(data=>{this.superusers=data})
+   this.api.getSuperUsers().subscribe(data=>{this.superusers=data;console.log('hist up',data)})
  }
 
 

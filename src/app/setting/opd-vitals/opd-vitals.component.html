@@ -57,6 +57,21 @@
 
 
                                               <form [formGroup]="opd_forms" (ngSubmit)=" createOPDVital()">
+
+                                                 <div class="msg-box">
+                                                        <div class="" *ngIf="response=='success'; else errorsMsg">
+                                                                <div class="bg-success p-2">
+                                                                    {{response}}
+                                                                </div>
+                                                        </div>
+                                                        <ng-template #errorsMsg class="bg-danger p-2">
+                                                                
+                                                                      {{response}}
+                                                                
+                                                        </ng-template>
+                                                  </div>
+
+
                                                  <button (click)="addopdinputbox()" class="btn btn-success" type="button">+ add </button><br/><br/>
                                                    <div formArrayName="opd_vitals">
                                                      <ng-container *ngFor="let opd_vital of opd_forms.get('opd_vitals')['controls'];index as i">

@@ -17,13 +17,16 @@ export class PatientDietarySupplementDetailsComponent {
   patient_history:any
   supplements:any;
   supplement_cost_details={cost:"",quantity:""}
+  discount_rate:any;
   costs:any;
+  discount_cost:any;
   total_cost=0
   cost_per_unit=0
   quantity:any;
   grand_cost:any
   patient_dietary_request:any;
   patient_dietary_status:any;
+  patient_bio:any;
   constructor(private api:SupplementsService,private active:ActivatedRoute,private router:Router){
        this.patientDieatryForms()
        this.checkLabTest()
@@ -58,14 +61,18 @@ export class PatientDietarySupplementDetailsComponent {
                    }))
                    
                    this.total_cost+=data.patient_dietary_supplement_list[index].cost
+                   
                    //console.log('freedom',this.patient_dietary_forms.controls.dieray_details.controls.length)
                    //console.log(this.patient_dietary_forms.controls.dieray_details.controls,'boom')
                    //this.patient_dietary_forms.controls.dieray_details.
               }
+              this.discount_cost=data.patient_dietory_records[0].discount_amount
+              this.discount_rate=data.patient_dietory_records[0].discount_rate
               //console.log(this.patient_dietary_forms.controls.dieray_details,'here')
               for(let x=0;x<this.patient_dietary_forms.controls.dieray_details.controls.length;x++){
                   // this.patient_dietary_forms.controls.dieray_details.controls[x].get('quantity').valueChanges(x=>console.log(x))
               }
+              //this.patient_bio=this.data.
               //this.patient_dietary_forms.controls.dieray_details.quantity.valueChanges.subscribe(x=>{console.log(x)})
     })
   }
@@ -135,6 +142,7 @@ export class PatientDietarySupplementDetailsComponent {
  updateCost=(data:any)=>{
 
       let change_in_quantity=this.patient_dietary_forms.controls.dieray_details.value
+      console.log(change_in_quantity,'hello')
       let total_cost=0
       for(let i=0;i<change_in_quantity.length;i++){
 
@@ -144,6 +152,8 @@ export class PatientDietarySupplementDetailsComponent {
       }
       this.total_cost=total_cost
       this.grand_cost=this.total_cost
+      this.discount_cost=this.total_cost*(100-this.patient_dietary_list.patient_dietory_records[0].discount_rate)/100;
+      console.log('helloo ',this.patient_dietary_list)
 
  }
 

@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+//import { DataTablesModule } from 'angular-datatables';
 
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
@@ -53,6 +55,9 @@ import { DailySupplementDailyDetailsComponent } from './supplement/supplements-r
 import { MedicalDiagnosisHistoryComponent } from './doctor/medical-diagnosis-history/medical-diagnosis-history.component';
 import { PatientOpdDetailsHistoryComponent } from './patient/patient-opd-details-history/patient-opd-details-history.component';
 import { LoginComponent } from './login/login.component';
+import { CardfeesComponent } from './setting/cardfees/cardfees.component';
+import { CardfeeslogsComponent } from './setting/cardfees/cardfeeslogs/cardfeeslogs.component';
+import { AuthlogsInterceptor } from './interceptors/authlogs.interceptor';
 
 @NgModule({
   declarations: [
@@ -104,17 +109,26 @@ import { LoginComponent } from './login/login.component';
     DailySupplementDailyDetailsComponent,
     MedicalDiagnosisHistoryComponent,
     PatientOpdDetailsHistoryComponent,
-    LoginComponent
+    LoginComponent,
+    CardfeesComponent,
+    CardfeeslogsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    //DataTablesModule
 
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass:AuthlogsInterceptor,
+      multi:true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -19,6 +19,7 @@ export class SupplementDetailsComponent {
       dietary_update_response:any;
       supplement_details_status:any;
       supplement_details_update:any;
+      dietary_profile:any;
       constructor(private api:SupplementsService,private activeroute:ActivatedRoute,private router:Router){}
 
 
@@ -28,7 +29,7 @@ export class SupplementDetailsComponent {
         this.activeroute.paramMap.subscribe(params=>{this.dietary_serial_code=params.get('serial_code')})  
       }
    stockDetailsHistory=(id:any)=>{
-     this.api.stockingDetailsHistory(id).subscribe(data=>{this.stock_history=data})
+     this.api.stockingDetailsHistory(id).subscribe(data=>{this.stock_history=data.history_details,this.dietary_profile=data.supplement_details})
    }
    supplementDetails=(id:any)=>{
       this.api.dietaryInfo(id).subscribe(data=>{this.supplement_name=data.supplement})
